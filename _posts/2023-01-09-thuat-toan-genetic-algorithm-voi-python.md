@@ -45,11 +45,12 @@ Trong bài viết này, chúng ta sẽ cùng code GA từ đầu bằng `Python`
 ```python
 import numpy as np
 import random	
+from random import gauss, randrange
 ```
 
 ## Khởi tạo individual và population
 
-Thuật toán GA bắt đầu quá trình tối ưu hóa bằng cách tạo ra một tập hợp ban đầu các candidate solutions có gen được tạo ngẫu nhiên
+Thuật toán GA bắt đầu quá trình tối ưu hóa bằng cách tạo ra một tập hợp ban đầu các candidate individuals có mã gen được tạo ngẫu nhiên
 
 ```python
 def create_individual(num_gens, upper_limit, lower_limit):
@@ -67,12 +68,12 @@ def population(number_of_individuals, number_of_genes, upper_limit, lower_limit)
 
 ## Tính toán fitness value
 
-Gọi 2 function này, population ban đầu có thể được tạo ra. Sau khi thuật toán di truyền tạo ra thế hệ đầu tiên, các fitness value của các individual được tính toán.
+Sau khi gọi 2 function trên, population ban đầu sẽ được tạo ra. Thuật toán GA tạo ra thế hệ đầu tiên, các fitness value của các individual được tính toán.
 
 >  Hàm `fitness_calculation` xác định fitness value của mỗi `individual`, cách tính fitness value tùy thuộc vào từng bài toán. Nếu vấn đề là tối ưu hóa các tham số của một hàm, thì hàm đó nên được triển khai thành hàm tính toán fitness.
 {: .prompt-tip }
 
-Để đơn giản, chúng tôi sẽ xem xét ví dụ tạo được đưa ra ở đầu bài viết.
+Để đơn giản, chúng ta sẽ xem xét ví dụ tạo được đưa ra ở đầu bài viết, tính tổng của mỗi individual.
 
 ```python
 def fitness_calculation(individual):
@@ -120,51 +121,55 @@ Phương pháp **Random Selection :**  individuals được chọn randomly.
 
 ```python
 def individual_selection(generation, method='fittest-half'):
-    selected_range = len(generation['individuals'])//2
-    
+    selected_individuals = {}
+    selected_range = int(len(generation['individuals']) // 2)
+
     generation['normalized_fitness'] = sorted(
-        [generation['fitness'][x] / sum(generation['fitness']) \
-            for x in range(len(generation['fitness']))], reverse=True
-        )
-    
+        [generation['fitness'][x] / sum(generation['fitness'])
+         for x in range(len(generation['fitness']))], reverse=True
+    )
+
     # calculate cumulative sum of normalized fitness array
     generation['cum_sum'] = np.array(generation['normalized_fitness']).cumsum()
-    
+
     if method == 'roulette-wheel':
         # select half of population
         selected_individuals = []
-        
+
         for x in range(selected_range):
-            selected_individuals.append(roulette(generation['cum_sum'], random.random()))
-            
+            selected_individuals.append(
+                roulette(generation['cum_sum'], random.random()))
+
             # check if there are some duplicated individuals
             while len(set(selected_individuals)) != len(selected_individuals):
-                selected_individuals[x] = roulette(generation['cum_sum'], random.random())
-        
+                selected_individuals[x] = roulette(
+                    generation['cum_sum'], random.random())
+
         selected_individuals = {
             'individuals': [generation['individuals'][selected_individuals[idx]] for idx in range(selected_range)],
             'fitness': [generation['fitness'][selected_individuals[idx]] for idx in range(selected_range)]
-            }
-        
+        }
+
     elif method == 'fittest-half':
         selected_individuals = {
             'individuals': [generation['individuals'][idx] for idx in range(selected_range)],
-            'fitness': [generation['fitness'][idx] for idx in range(selected_range)]  
-            }
-        
+            'fitness': [generation['fitness'][idx] for idx in range(selected_range)]
+        }
+
     elif method == 'random':
-        random_inds = random.sample(range(len(generation['individuals'])), selected_range)
+        random_inds = random.sample(
+            range(len(generation['individuals'])), selected_range)
         selected_individuals = {
             'individuals': [generation['individuals'][idx] for idx in random_inds],
             'fitness': [generation['fitness'][idx] for idx in random_inds]
-            }
-    
+        }
+
     return selected_individuals
 ```
 
 ## Quá trình pairing and mating
 
-Tương tự như quá trình **selection**, quá trình pairing và mating cũng các chiến lược khác nhau. Trước tiên, chúng ta sẽ thảo luận về ba phương pháp pairing khác nhau.
+Tương tự như quá trình **selection**, quá trình **pairing** và **mating** cũng có các phương pháp chọn khác nhau. Trước tiên, chúng ta sẽ thảo luận về 3 phương pháp **pairing**:
 
 -  **Fittest:** trong phương pháp này, các cá nhân được ghép đôi từng cặp một, bắt đầu từ individual có fitness value tốt nhất. Bằng cách đó, những cá thể khỏe mạnh hơn được ghép cặp với nhau, nhưng những cá thể kém khỏe mạnh hơn cũng được ghép cặp với nhau.
 
@@ -177,41 +182,41 @@ Tương tự như quá trình **selection**, quá trình pairing và mating cũn
 Quá trình pairing có thể viết như sau:
 
 ```python
-def pairing(elite, selected_inds, method='fittest'):
-    individuals = [elit['individuals'] + selected_inds['individuals']]
-    fitness = [elite['fitness'] + selected_inds['fitness']]
+def pairing(elite, selected_inds, method='weighted-random'):
+    individuals = [elite['individuals']] + selected_inds['individuals']
+    fitness = [elite['fitness']] + selected_inds['fitness']
     parent = []
-    
-    pairing_len = len(individuals)//2
-    if method=='random':
-        
+
+    pairing_len = len(individuals) // 2
+    if method == 'random':
+
         for x in range(pairing_len):
             parent.append([
-                individuals[random.randint(0, len(individuals)-1)],
-                individuals[random.randint(0, len(individuals)-1)]
-                ])
-            
+                individuals[random.randint(0, len(individuals) - 1)],
+                individuals[random.randint(0, len(individuals) - 1)]
+            ])
+
             while parent[x][0] == parent[x][1]:
-                parent[x][1] = individuals[random.randint(0, len(individuals)-1)]
-                
-    if method == 'weighted-random':
+                parent[x][1] = individuals[random.randint(0, len(individuals) - 1)]
+
+    elif method == 'weighted-random':
         normalized_fitness = sorted(
             [fitness[x] / sum(fitness) for x in range(pairing_len)], reverse=True
-            )
+        )
         cum_sum = np.array(normalized_fitness).cumsum()
-        
+
         for x in range(pairing_len):
             parent.append(
                 [individuals[roulette(cum_sum, random.random())],
                  individuals[roulette(cum_sum, random.random())]]
-                )
+            )
             while parent[x][0] == parent[x][1]:
                 parent[x][1] = individuals[roulette(cum_sum, random.random())]
-                
+
     return parent
 ```
 
-Sau khi đã chọn được cặp, bây giờ ta phải quyết định kết hợp thế nào. Đối với GA, có 2 cách để kết hợp phổ biến là single và multiple points. Đối với phương pháp single point, 2 gens hoán đổi kết hợp phần trước của bố và phần sau điểm cắt của gene mẹ. Phương pháp multiple points ngược lại.
+Sau khi đã chọn được cặp, bây giờ ta phải quyết định kết hợp thế nào. Đối với GA, có 2 cách để kết hợp phổ biến là single và 2 points. Đối với phương pháp single point, 2 gens hoán đổi kết hợp phần trước của bố và phần sau điểm cắt của gene mẹ. Phương pháp 2 points cũng tương tự như vậy.
 
 ![ga-mating](ga-mating-multi-points.png){: width="500"}_Phương pháp multiple points mating_
 
@@ -219,33 +224,31 @@ Quá trình mating có thể viết lại như sau:
 
 ```python
 def mating(parents, method='single-point'):
+    offsprings = []
     if method == 'single-point':
-        pivot_point = randint(1, len(parents[0]))
+        pivot_point = random.randint(1, len(parents[0]))
         offsprings = [parents[0]
-                      [0:pivot_point]+parents[1][pivot_point:]]
-        offsprings.append(parents[1]
-                          [0:pivot_point]+parents[0][pivot_point:])
+                      [0:pivot_point] + parents[1][pivot_point:], parents[1]
+                      [0:pivot_point] + parents[0][pivot_point:]]
 
     if method == 'multiple-points':
-        pivot_point_1 = randint(1, len(parents[0]-1))
-        pivot_point_2 = randint(1, len(parents[0]))
+        pivot_point_1 = random.randint(1, len(parents[0] - 1))
+        pivot_point_2 = random.randint(1, len(parents[0]))
 
         while pivot_point_2 < pivot_point_1:
-            pivot_point_2 = randint(1, len(parents[0]))
+            pivot_point_2 = random.randint(1, len(parents[0]))
         offsprings = \
             [parents[0][0:pivot_point_1] + parents[1][pivot_point_1:pivot_point_2] +
-                [parents[0][pivot_point_2:]]]
-            
-        offsprings.append([parents[1][0:pivot_point_1] +
-                           parents[0][pivot_point_1:pivot_point_2] +
-                           [parents[1][pivot_point_2:]]])
+             [parents[0][pivot_point_2:]], [parents[1][0:pivot_point_1] +
+                                            parents[0][pivot_point_1:pivot_point_2] +
+                                            [parents[1][pivot_point_2:]]]]
 
     return offsprings
 ```
 
 ## Quá trình mutation tạo ra đột biến
 
-Đột biến ngẫu nhiên xảy ra ở các cá thể được chọn và con cái của chúng để cải thiện sự đa dạng của thế hệ tiếp theo. Nếu có tinh hoa trong thuật toán di truyền, cá thể tinh hoa không trải qua đột biến ngẫu nhiên nên chúng ta không mất solution tốt nhất. Chúng ta sẽ thảo luận về hai phương pháp đột biến khác nhau.
+Đột biến ngẫu nhiên xảy ra ở các cá thể được chọn và con cái của chúng để cải thiện sự đa dạng của thế hệ tiếp theo. Nếu có tinh hoa (elite) trong thuật toán di truyền, cá thể tinh hoa không trải qua đột biến ngẫu nhiên nên chúng ta không mất solution tốt nhất. Chúng ta sẽ thảo luận về hai phương pháp đột biến khác nhau.
 
 -  **Gauss**: Trong phương pháp này, gen trải qua đột biến được thay thế bằng một số được tạo ra theo phân bố gauss xung quanh gen ban đầu.
 -  **Reset**: Trong phương pháp này, gen ban đầu được thay thế bằng gen được tạo ngẫu nhiên
@@ -255,22 +258,23 @@ def mating(parents, method='single-point'):
 Quá trình mutation có thể được viết lại như sau:
 
 ```python
-def mutation(individual, upper_limit, lower_limit, muatation_rate=2, method='Reset', standard_deviation = 0.001):
-    gene = [randint(0, 7)]
-    
-    for x in range(muatation_rate-1):
-        gene.append(randint(0, 7))
+def mutation(individual, upper_limit, lower_limit, muatation_rate=2,
+             method='Reset', standard_deviation=0.001):
+    gene = [np.random.randint(0, 7)]
+
+    for x in range(muatation_rate - 1):
+        gene.append(np.random.randint(0, 7))
         while len(set(gene)) < len(gene):
-            gene[x] = randint(0, 7)
+            gene[x] = np.random.randint(0, 7)
     mutated_individual = individual.copy()
-    
+
     if method == 'Gauss':
         for x in range(muatation_rate):
-            mutated_individual[x] = round(individual[x]+gauss(0, standard_deviation), 1)
+            mutated_individual[x] = round(individual[x] + gauss(0, standard_deviation), 1)
     if method == 'Reset':
         for x in range(muatation_rate):
-            mutated_individual[x] = round(rnd() * (upper_limit-lower_limit)+lower_limit,1)
-            
+            mutated_individual[x] = round(np.random.random() * (upper_limit - lower_limit) + lower_limit, 1)
+
     return mutated_individual
 ```
 
@@ -284,37 +288,36 @@ def next_generation(gen, upper_limit, lower_limit):
     next_gen = {}
     elit['individuals'] = gen['individuals'].pop(-1)
     elit['fitness'] = gen['fitness'].pop(-1)
-    
-    selected = selection(gen)
+
+    selected = individual_selection(gen)
     parents = pairing(elit, selected)
     offsprings = [[[mating(parents[x]) for x in range(len(parents))][y][z] for z in range(2)] \
-        for y in range(len(parents))]
-    
+                  for y in range(len(parents))]
+
     offsprings1 = [offsprings[x][0] for x in range(len(parents))]
     offsprings2 = [offsprings[x][1] for x in range(len(parents))]
-    
-    unmutated = selected['Individuals']+offsprings1+offsprings2
-    mutated = [mutation(unmutated[x], upper_limit, lower_limit) \
-        for x in range(len(gen['Individuals']))]
-    
-    unsorted_individuals = mutated + [elit['Individuals']]
+
+    unmutated = selected['individuals'] + offsprings1 + offsprings2
+    mutated = [mutation(unmutated[x], upper_limit, lower_limit) for x in range(len(gen['individuals']))]
+
+    unsorted_individuals = mutated + [elit['individuals']]
     unsorted_next_gen = [fitness_calculation(mutated[x]) for x in range(len(mutated))]
-    unsorted_fitness = [unsorted_next_gen[x] for x in range(len(gen['Fitness']))] + [elit['Fitness']]
+    unsorted_fitness = [unsorted_next_gen[x] for x in range(len(gen['fitness']))] + [elit['fitness']]
     sorted_next_gen = sorted([[unsorted_individuals[x], unsorted_fitness[x]] \
-        for x in range(len(unsorted_individuals))], key=lambda x: x[1])
-    
-    next_gen['Individuals'] = [sorted_next_gen[x][0] for x in range(len(sorted_next_gen))]
-    next_gen['Fitness'] = [sorted_next_gen[x][1] for x in range(len(sorted_next_gen))]
-    
-    gen['Individuals'].append(elit['Individuals'])
-    gen['Fitness'].append(elit['Fitness'])
-    
+                              for x in range(len(unsorted_individuals))], key=lambda x: x[1])
+
+    next_gen['individuals'] = [sorted_next_gen[x][0] for x in range(len(sorted_next_gen))]
+    next_gen['fitness'] = [sorted_next_gen[x][1] for x in range(len(sorted_next_gen))]
+
+    gen['individuals'].append(elit['individuals'])
+    gen['fitness'].append(elit['fitness'])
+
     return next_gen
 ```
 
 ## Termination Criteria
 
-Sau khi một thế hệ được tạo, các tiêu chí kết thúc được sử dụng để xác định xem thuật toán di truyền có nên tạo một thế hệ khác hay không. Các tiêu chí kết thúc khác nhau có thể được sử dụng đồng thời và nếu thuật toán di truyền thỏa mãn một trong các tiêu chí thì thuật toán di truyền dừng lại. Chúng ta sẽ thảo luận về 4 tiêu chí:
+Sau khi một thế hệ được tạo, các tiêu chí kết thúc (termination criteria) được sử dụng để xác định xem thuật toán GA có nên tạo một thế hệ khác hay không. Các tiêu chí kết thúc khác nhau có thể được sử dụng đồng thời và nếu thuật toán di truyền thỏa mãn một trong các tiêu chí thì thuật toán di truyền dừng lại. Chúng ta sẽ thảo luận về 4 tiêu chí:
 
 - **Đạt giá trị fitness tối đa** : Tiêu chí chấm dứt này kiểm tra xem best individual trong thế hệ hiện tại có đáp ứng các tiêu chí của chúng ta hay không. Sử dụng phương pháp này có thể thu được kết quả mong muốn. Như được thấy từ hình bên dưới, các giá trị có thể được xác định bao gồm một số cực tiểu cục bộ hoặc global minima.
 
@@ -340,11 +343,55 @@ def fitness_similarity_chech(max_fitness, number_of_similarity):
     return result
 ```
 
-## Running the Algorithm
+# Running the Algorithm
 
+Bây giờ tất cả function chúng ta cần cho thuật toán di truyền đã sẵn sàng, chúng ta có thể bắt đầu quá trình tối ưu hóa. Để chạy thuật toán di truyền với 20 cá thể trong mỗi thế hệ:
+
+  ```python
+  result_file = 'ga_result.txt'
   
+  def first_generation(pop):
+      fitness = [fitness_calculation(pop[x]) for x in range(len(pop))]
+      sorted_fitness = sorted([[pop[x], fitness[x]] for x in range(len(pop))], key=lambda x: x[1])
+      population = [sorted_fitness[x][0] for x in range(len(sorted_fitness))]
+      fitness = [sorted_fitness[x][1] for x in range(len(sorted_fitness))]
+  
+      return {'individuals': population, 'fitness': fitness}
+  
+  
+  pop = population(number_of_individuals=20, number_of_genes=10, upper_limit=1, lower_limit=0)
+  gen = [first_generation(pop)]
+  fitness_avg = np.array([sum(gen[0]['fitness']) / len(gen[0]['fitness'])])
+  fitness_max = np.array([max(gen[0]['fitness'])])
+  
+  res = open(result_file, 'a')
+  res.write('\n' + str(gen) + '\n')
+  res.close()
+  
+  finish = False
+  while not finish:
+      if max(fitness_max) > 8 or max(fitness_avg) > 7 or fitness_similarity_check(fitness_max, 50):
+          break
+  
+      gen.append(next_generation(gen[-1], 1, 0))
+      fitness_avg = np.append(fitness_avg, sum(gen[-1]['fitness']) / len(gen[-1]['fitness']))
+      fitness_max = np.append(fitness_max, max(gen[-1]['fitness']))
+      res = open(result_file, 'a')
+      res.write('\n' + str(gen[-1]) + '\n')
+      res.close()
+  ```
 
-## References
+# Conclusion
+
+Thuật toán di truyền GA có thể được sử dụng để giải quyết các vấn đề tối ưu hóa ràng buộc đa tham số. Giống như hầu hết các thuật toán tối ưu hóa, thuật toán di truyền có thể được triển khai trực tiếp từ một số thư viện như `sklearn`, nhưng việc code lại thuật toán từ đầu sẽ giúp ta hiểu về cách thức hoạt động của thuật toán và cần phải  được điều chỉnh cho phù hợp với một vấn đề cụ thể hoặc cái bài toán tối ưu khác nhau.
+
+Cảm ơn bạn đã đọc, tôi hy vọng bài viết hữu ích. Nếu bạn có câu thắc mắc nào hãy để lại ở dưới phần bình luận!
+
+> Bạn đọc có thể tìm thấy code full tại repo của mình trại [đây](https://gist.github.com/hlinh96it/2a96fa4e7bc4d6f83a52633f8a77c956).
+{: .prompt-info}
+
+# References
 
 1.  <https://nerophung.github.io/2020/05/28/genetic-algorithm>
 2.  <https://towardsdatascience.com/continuous-genetic-algorithm-from-scratch-with-python-ff29deedd099>
+3.  https://mitpress.mit.edu/books/adaptation-natural-and-artificial-systems
