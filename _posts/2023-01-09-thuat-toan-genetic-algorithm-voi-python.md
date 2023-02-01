@@ -394,4 +394,4 @@ Cảm ơn bạn đã đọc, tôi hy vọng bài viết hữu ích. Nếu bạn 
 
 1.  <https://nerophung.github.io/2020/05/28/genetic-algorithm>
 2.  <https://towardsdatascience.com/continuous-genetic-algorithm-from-scratch-with-python-ff29deedd099>
-3.  https://mitpress.mit.edu/books/adaptation-natural-and-artificial-systems
+3.  <https://mitpress.mit.edu/books/adaptation-natural-and-artificial-systems>
