@@ -1,5 +1,5 @@
 ---
-title: Thuật toán Gradient Descent (GD) với Python
+title: Thuật toán Partial Least Squares (PLS) với Python
 author: hoanglinh
 categories: [Machine Learning, Feature Engineering]
 tags: [dimensional reduction]
