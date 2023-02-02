@@ -15,7 +15,7 @@ Dành cho các bạn mới làm quen với Linear regression, các bạn có th�
 
 Hiểu về cơ bản, hiện tượng đa cộng tuyến trong linear regression là hiện tượng các biến phụ thuộc tuyến tính lẫn nhau, thể hiện dưới hàm số và vi phạm giả định số 5 của mô hình linear regression. Bạn đọc quan tâm có thể tham khảo bài viết về [hệ quả của đa cộng tuyến với mô hình linear regression](https://www.notion.so/6cb85c40ecdf4a3abbd01f634f1c3508).
 
-![da-cong-tuyen](da-cong-tuyen.png)_Nguồn: Xử lý số liệu SPSS_
+![da-cong-tuyen](Da-cong-tuyen.png)_Nguồn: Xử lý số liệu SPSS_
 
 Mục tiêu của linear regression là mô phỏng lại mối liên hệ phụ thuộc giữa target và một hoặc nhiều variables (hay còn gọi là inputs). Mô hình OLS có thể cho ra kết quả tốt nếu các variable không vi phạm [các giả định](https://www.notion.so/deba871a26d34c67bac023a447fab221). Tuy nhiên, thực tế là các inputs có thể có mối liên hệ với nhau và từ đó, kết quả của OLS không còn đáng tin cậy nữa.
 
