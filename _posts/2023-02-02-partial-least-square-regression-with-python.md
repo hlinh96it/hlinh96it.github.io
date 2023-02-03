@@ -57,7 +57,7 @@ Mục tiêu của `meats` dataset là sử dụng 100 data về Near-Infrared đ
 - Các inputs có liên quan đến nhau → phù hợp cho việc giảm kích thước inputs
 - Nhiều outputs và các output cũng có sự tương quan với nhau
 
-## Partial Least Squares Regression Example với `Python`
+## Partial Least Squares Regression Example với Python
 
 Trước tiên, ta sẽ làm việc với continuous data, đối với categorical data sẽ được đề cập ở phần sau.
 
@@ -68,12 +68,35 @@ import pandas as pd
 import boto
 
 # import the csv file directly from an s3 bucket
-data = pd.read_csv('<https://raw.githubusercontent.com/hoanglinh96nthu/implement_algorithm/main/Regression_Algorithms/meats.csv>')
+data = pd.read_csv('<https://raw.githubusercontent.com/hlinh96it/implement_algorithm/main/Regression_Algorithms/meats.csv>')
 data = data.drop('Unnamed: 0', axis = 1)
 data
 ```
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/24e513c3-8e44-4ac8-a9bd-713a0a1d8307/Untitled.png)
+![meats-data](meats-data)
+
+Chúng ta có thể chia data thành 3 phần là train, validation và test bằng code dưới đây. Các bạn cũng có thể sử dụng thư viện `train_test_split()` trong `sklearn`
+
+```python
+# Split data in train, val, test
+meats_train = data.iloc[0:130,:]
+meats_val = data.iloc[130:175,:]
+meats_test = data.iloc[175:215,:]
+
+# Split the columns in X and Y
+X_colnames = data.columns[:-3]
+Y_colnames = data.columns[-3:]
+
+# Split each train, val and test into two arrays
+X_train = meats_train[X_colnames].values
+Y_train = meats_train[Y_colnames].values
+
+X_val = meats_val[X_colnames].values
+Y_val = meats_val[Y_colnames].values
+
+X_test = meats_test[X_colnames].values
+Y_test = meats_test[Y_colnames].values
+```
 
 Sau khi đã có data, ta tiến hành train và validate moadel bằng thư viện `sklearn`
 
@@ -103,13 +126,11 @@ plt.tight_layout()
 plt.show()
 ```
 
-![output.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/3ca4d4ed-7d5b-4fde-831e-f407340c0860/output.png)
+![output.png](pls_comps.png)
 
 Từ hình vẽ trên, ta có thể thấy số lượng `component` cho ra kết quả `RMSE` nhỏ nhất nằm trong khoảng 20 → 30. Ta cũng có thể visualize sự khác nhau khi số lượng components thay đổi đối với kết quả. Vì chúng ta có tổng cộng là 100 inputs nên ta có tổng là 100 hệ số cho model regression.
 
-![coefficient.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/34d9b7ad-01a1-44e6-9c2e-b0ba1d4ac120/coefficient.png)
-
-Có thể thấy, khi số lượng components tăng lên, độ phức tạp của model cũng tăng theo. Vậy làm thế nào để biết được bao nhiêu `component` là tối ưu? Ta sẽ sử dụng phương pháp `Grid search` và tính giá trị `r-square`. Bạn đọc có thể tìm hiểu thêm về `r-square` tại [bài viết này](https://www.notion.so/37daf433b45347338cc5afbe990bbe7a).
+Hiển nhiên là, khi số lượng components tăng lên, độ phức tạp của model cũng tăng theo. Vậy làm thế nào để biết được bao nhiêu `component` là tối ưu? Ta sẽ sử dụng phương pháp `Grid search` và tính giá trị `r-square`. Bạn đọc có thể tìm hiểu thêm về `r-square` tại [bài viết này](https://www.notion.so/37daf433b45347338cc5afbe990bbe7a).
 
 ```python
 from sklearn.metrics import r2_score
@@ -141,9 +162,6 @@ print(r2_score(Y_test, test_preds))
 
 Điểm `r-square` thu được là 0,95628, cao hơn một chút so với kết quả trên tập `validation`. Chúng ta có thể tự tin rằng mô hình không bị overfitting và chúng ta đã tìm thấy số lượng `components` phù hợp để tạo nên một mô hình hoạt động hiệu quả.
 
-<aside> 💡 Nếu sai số này có thể chấp nhận được cho mục đích thử nghiệm thịt, thì chúng tôi có thể tự tin thay thế phép đo nước, chất béo và protein thủ công bằng phép đo hóa học tự động kết hợp với Công cụ hồi quy PLS này. Hồi quy PLS sau đó sẽ phục vụ để chuyển đổi các phép đo hóa học thành ước tính hàm lượng nước, chất béo và protein.
-
-</aside>
-
-------
+> Nếu sai số này có thể chấp nhận được cho mục đích thử nghiệm thịt, thì chúng tôi có thể tự tin thay thế phép đo nước, chất béo và protein thủ công bằng phép đo hóa học tự động kết hợp với Công cụ hồi quy PLS này. Hồi quy PLS sau đó sẽ phục vụ để chuyển đổi các phép đo hóa học thành ước tính hàm lượng nước, chất béo và protein.
+{: .prompt-info}
 
