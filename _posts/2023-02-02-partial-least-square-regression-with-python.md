@@ -1,5 +1,5 @@
 ---
-title: Thuật toán Partial Least Squares (PLS) với Python
+title: Thuật toán Partial Least Squares (PLS) với Python (Phần 1)
 author: hoanglinh
 categories: [Feature Engineering]
 tags: [dimensional reduction]
@@ -48,15 +48,6 @@ Trước tiên, để tránh nhầm lẫn với các định nghĩa trong các n
 - ***\*KernelPLS:\**** vì PLS là biến thể của phương pháp Linear regression nên nó bản chất không có khả năng làm việc với non-linear problems → KernelPLS sinh ra để giải quyết vấn đề đó
 - **OPLS (orthogonal projects to latent structures)**: là một bản nâng cấp của PLS, OPLS dễ giải thích hơn. Nếu PLS chỉ phân chia variability thành systemic và noise, thì OPLS tiến thêm một bước bằng cách chia systemic variability thành predictive and orthogonal variability.
 
-## Partial Least Squares Regression Example với `R`
-
-Ở phần này, chúng ta sẽ cùng code PLS bằng ngôn ngữ R. Dataset sử dụng là `meats` dataset, có thể tìm thấy trong R-library.
-
-Mục tiêu của `meats` dataset là sử dụng 100 data về Near-Infrared để dự đoán thành phần trong thịt như `water, fat, protein`. Nếu model của chúng ta có thể predict chính xác, ta sẽ giúp quá trình đo thành phần trong thịt nhanh hơn, chỉ cần nhập input là có thể biết được kết quả. Lý do sử dụng data này vì nó có nhiều đặc điểm để sử dụng PLS
-
-- Các inputs có liên quan đến nhau → phù hợp cho việc giảm kích thước inputs
-- Nhiều outputs và các output cũng có sự tương quan với nhau
-
 ## Partial Least Squares Regression Example với Python
 
 Trước tiên, ta sẽ làm việc với continuous data, đối với categorical data sẽ được đề cập ở phần sau.
@@ -73,7 +64,7 @@ data = data.drop('Unnamed: 0', axis = 1)
 data
 ```
 
-![meats-data](meats-data)
+![meats-data](meats-data.png)
 
 Chúng ta có thể chia data thành 3 phần là train, validation và test bằng code dưới đây. Các bạn cũng có thể sử dụng thư viện `train_test_split()` trong `sklearn`
 
