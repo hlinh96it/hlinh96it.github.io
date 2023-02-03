@@ -31,11 +31,11 @@ Mặc dù ta có thể xây model cho mỗi biến, tuy nhiên mọi yếu tố 
 
 Trước khi đi vào chi tiết phương pháp PLS, hãy cùng tìm hiểu xem lý do tại sao và trong trường hợp nào nên dùng PLS. So sánh với với các thuật toán khác để giải quyết vấn đề (1) có nhiều biến phụ thuộc (multiple outputs) và (2) có nhiều biến độc lập (inputs) tương quan với nhau
 
-| Phương pháp                       | Trường hợp sử dụng                                           | Giới hạn                                                     |
-| --------------------------------- | :----------------------------------------------------------- | ------------------------------------------------------------ |
-| Multi-variate multiple regression | Nhiều inputs và nhiều outputs regression                     | Không có khả năng xử lý hiện tượng đa cộng tuyến             |
-| Principle component regression    | Các inputs có liên quan đến nhau. Sử dụng PCA trước rồi cho vào OLS model<br />PCR tập trung vào giảm kích thước inputs bằng cách tập trung vào phương sai (variance) | Không phù hợp với bài toán tìm mối liên hệ phụ thuộc giữa output và inputs |
-| Canonical correlation analysis    | Tìm mối tương quan (correlation) giữa 2 datasets<br />Thực hiện bằng cách giảm kích thước của cả 2 data và tìm ra cặp component nào có độ tương quan cao nhất | Tập trung vào so sánh mức độ tương quan thay vì hiệp phương sai như PLS |
+|                  Phương pháp                  | Trường hợp sử dụng                                           | Giới hạn                                                     |
+| :-------------------------------------------: | :----------------------------------------------------------- | ------------------------------------------------------------ |
+| Multi-variate<br /> multiple <br />regression | Nhiều inputs và nhiều outputs regression                     | Không có khả năng xử lý hiện tượng đa cộng tuyến             |
+|  Principle <br />component <br />regression   | Các inputs có liên quan đến nhau. <br />Sử dụng PCA trước rồi cho vào OLS model. <br />PCR tập trung vào giảm kích thước inputs bằng cách tập trung vào phương sai (variance) | Không phù hợp với bài toán tìm mối liên hệ phụ thuộc giữa output và inputs |
+|  Canonical <br />correlation<br /> analysis   | Tìm mối tương quan (correlation) giữa 2 datasets<br />Thực hiện bằng cách giảm kích thước của cả 2 data <br />và tìm ra cặp component nào có độ tương quan cao nhất | Tập trung vào so sánh mức độ tương quan thay vì hiệp phương sai như PLS |
 
 ## Partial Least Squares models
 
@@ -44,8 +44,8 @@ Trước tiên, để tránh nhầm lẫn với các định nghĩa trong các n
 - **PLS regression**: cũng là một họ của phương pháp PLS nhưng tập trung vào bài toán mà output là số
 - **PLS discriminant analysis (PLS-DA)**: tập trung vào bài toán với output là categories (bài toán phân loại)
 - **PLS1 và PLS2**: model với chỉ MỘT output và NHIỀU outputs
-- ***\*SIMPLS vs NIPALS:\**** là 2 phương pháp để triển khai PLS, trong đó SIMPLS được biết đến với khả năng tính toán nhanh hơn và đơn giản hơn so với người tiền nhiệm là NIPALS.
-- ***\*KernelPLS:\**** vì PLS là biến thể của phương pháp Linear regression nên nó bản chất không có khả năng làm việc với non-linear problems → KernelPLS sinh ra để giải quyết vấn đề đó
+- **SIMPLS vs NIPALS**: là 2 phương pháp để triển khai PLS, trong đó SIMPLS được biết đến với khả năng tính toán nhanh hơn và đơn giản hơn so với người tiền nhiệm là NIPALS.
+- **KernelPLS:** vì PLS là biến thể của phương pháp Linear regression nên nó bản chất không có khả năng làm việc với non-linear problems → KernelPLS sinh ra để giải quyết vấn đề đó
 - **OPLS (orthogonal projects to latent structures)**: là một bản nâng cấp của PLS, OPLS dễ giải thích hơn. Nếu PLS chỉ phân chia variability thành systemic và noise, thì OPLS tiến thêm một bước bằng cách chia systemic variability thành predictive and orthogonal variability.
 
 ## Partial Least Squares Regression Example với Python
