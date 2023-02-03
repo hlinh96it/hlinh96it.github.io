@@ -1,7 +1,7 @@
 ---
 title: Thuật toán Gradient Descent (GD) với Python
 author: hoanglinh
-categories: [Machine Learning, Deep Learning]
+categories: [Deep Learning]
 tags: [optimization algorithms]
 math: true
 img_path: posts_media/2023-01-07-posts/

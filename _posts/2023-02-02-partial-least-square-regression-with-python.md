@@ -1,7 +1,7 @@
 ---
 title: Thuật toán Partial Least Squares (PLS) với Python
 author: hoanglinh
-categories: [Machine Learning, Feature Engineering]
+categories: [Feature Engineering]
 tags: [dimensional reduction]
 math: true
 img_path: posts_media/2023-02-02-posts/

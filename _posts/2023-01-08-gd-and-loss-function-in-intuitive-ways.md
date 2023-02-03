@@ -1,7 +1,7 @@
 ---
 title: Gradient Descent and Loss function in a Intuitive way
 author: hoanglinh
-categories: [Machine Learning, Deep Learning]
+categories: [Deep Learning]
 tags: [optimization algorithms]
 math: true
 img_path: posts_media/2023-01-07-posts/
