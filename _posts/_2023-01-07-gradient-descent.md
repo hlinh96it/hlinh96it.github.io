@@ -58,10 +58,13 @@ Như bạn có thể thấy, ở bên phải thuật toán Gradient Descent đi 
 ## Batch Gradient Descent
 
 Để tìm được optimal weight cho các features, thuật toán GD sẽ tính gradient của hàm loss đối với mỗi model parameters $\theta_j$. Hay nói cách khác, ta cần biết loss thay đổi bao nhiêu nếu ta thay đổi giá trị của $\theta_j$ với một lượng nhất định, gọi là đạo hàm riêng (partial derivative). Để tính đạo hàm riêng, ta có thể sử dụng công thức:
+
 $$
 \frac{\partial}{\partial\theta_j}MSE(\mathbf{\theta})  = \frac{2}{m}\sum_{i=1}^m(\mathbf{\theta}^Tx^{(i)} - y^{(i)})x^{(i)}_j \tag{4}
 $$
 
+> Sở dĩ ta gọi công thức trên là batch GD vì nó tính toán dựa trên toàn bộ data. Việc sử dụng tất cả data để tính một lần có thể gây nên hiện tượng training rất lâu và khối lượng tính toán lớn. Nhưng vẫn rất nhanh khi so sánh với phương pháp tìm nghiệm thông thường, đặc biệt là khi số  lượng features tăng lên hàng trăm hoặc thậm chí hàng ngàn. 
+{: .prompt-info}
 
 ## Referenes
 
