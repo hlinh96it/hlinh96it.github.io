@@ -29,7 +29,7 @@ Trong đó, $\beta$ là bias cho model, $\theta$ là weight vector cho từng fe
 Gradient descent là thuật toán tối ưu thông qua vòng lặp (iterative optimization) với mục tiêu là update các tham số $\theta$ sao cho giá trị loss giảm dần theo số vòng lặp. GD sẽ dừng khi gặp điều kiện kết thúc như loss giảm không đáng kể nữa hoặc kết thúc số lần lặp. Giá trị của các tham số $\theta$ được update theo đạo hàm riêng với hàm loss và learning rate:
 
 $$
-\theta^{t+1} =\theta - \eta  ∇_\theta
+\theta^{t+1} =\theta - \eta  ∇_\theta \tag{3}
 $$
 
 Trong đó, $∇_\theta$ là ký hiệu chỉ vector của các đạo hàm riêng của $\theta$ theo hàm loss.
@@ -57,6 +57,10 @@ Như bạn có thể thấy, ở bên phải thuật toán Gradient Descent đi 
 
 ## Batch Gradient Descent
 
+Để tìm được optimal weight cho các features, thuật toán GD sẽ tính gradient của hàm loss đối với mỗi model parameters $\theta_j$. Hay nói cách khác, ta cần biết loss thay đổi bao nhiêu nếu ta thay đổi giá trị của $\theta_j$ với một lượng nhất định, gọi là đạo hàm riêng (partial derivative). Để tính đạo hàm riêng, ta có thể sử dụng công thức:
+$$
+\frac{\partial}{\partial\theta_j}MSE(\mathbf{\theta})  = \frac{2}{m}\sum_{i=1}^m(\mathbf{\theta}^Tx^{(i)} - y^{(i)})x^{(i)}_j \tag{4}
+$$
 
 
 ## Referenes
