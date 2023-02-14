@@ -166,8 +166,15 @@ Kết quả của 2 tham số weight và bias sau khi sử dụng GD là 2.84 v�
 
 Ngoài ra, còn một tham số nữa cũng rất quan trọng như đã đề cập ở phần trên, đó là `learning_rate`. Hình dưới minh họa quá trình optimize của GD khi ta đặt các giá trị `learning_rate` khác nhau. Có thể thấy, nếu ta chọn được các tham số phù hợp, ta có thể tìm được weight và bias gần với giá trị đúng nhất. Ngược lại, nếu tham số ta chọn không hiệu quả có thể làm model không thể hoặc rất lâu mới tìm được tham số optimal cho weight và bias.
 
-![gd-update-0.01](gd-update-0.01_0001.gif)
+![gd-update-0.01](gd-update-0.01.gif)
+
+![gd-update-0.5](gd-update-0.5.gif)
+
+Vậy thì câu hỏi là làm thế nào để tìm được các tham số phù hợp? Grid search có thể là một giải pháp nhưng phương pháp này tốn nhiều thời gian vì nó sẽ phải thử từng cặp giá trị của các tham số. Đây cũng là một hướng nghiên cứu, các bạn có thể tìm đọc thêm lại đây: [Hyperparameters Optimization](https://towardsdatascience.com/hyperparameters-optimization-526348bb8e2d).
+
+> Khi cost function is convex và độ dốc của nó không thay đổi đột ngột (như trường hợp của hàm chi phí MSE), Batch Gradient Descent với tốc độ học (`learning_rate`) cố định cuối cùng sẽ hội tụ về giải pháp tối ưu, nhưng bạn có thể phải đợi một lúc: nó có thể lặp lại $O(1/\epsilon)$ để đạt được mức tối ưu trong phạm vi ε, tùy thuộc vào hình dạng của hàm chi phí. Nếu bạn chia dung sai cho 10 để có giải pháp chính xác hơn, thì thuật toán có thể phải chạy lâu hơn khoảng 10 lần.
 
 ## Referenes
 
-1. [Gradient Descent Tiếng Việt](https://ndquy.github.io/posts/gradient-descent-2/)
+1. https://ndquy.github.io/posts/gradient-descent-2/
+1. https://towardsdatascience.com/hyperparameters-optimization-526348bb8e2d
