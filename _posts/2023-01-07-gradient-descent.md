@@ -58,13 +58,111 @@ Như bạn có thể thấy, ở bên phải thuật toán Gradient Descent đi 
 ## Batch Gradient Descent
 
 Để tìm được optimal weight cho các features, thuật toán GD sẽ tính gradient của hàm loss đối với mỗi model parameters $\theta_j$. Hay nói cách khác, ta cần biết loss thay đổi bao nhiêu nếu ta thay đổi giá trị của $\theta_j$ với một lượng nhất định, gọi là đạo hàm riêng (partial derivative). Để tính đạo hàm riêng, ta có thể sử dụng công thức:
-
 $$
 \frac{\partial}{\partial\theta_j}MSE(\mathbf{\theta})  = \frac{2}{m}\sum_{i=1}^m(\mathbf{\theta}^Tx^{(i)} - y^{(i)})x^{(i)}_j \tag{4}
 $$
 
 > Sở dĩ ta gọi công thức trên là batch GD vì nó tính toán dựa trên toàn bộ data. Việc sử dụng tất cả data để tính một lần có thể gây nên hiện tượng training rất lâu và khối lượng tính toán lớn. Nhưng vẫn rất nhanh khi so sánh với phương pháp tìm nghiệm thông thường, đặc biệt là khi số  lượng features tăng lên hàng trăm hoặc thậm chí hàng ngàn. 
-{: .prompt-info}
+> {: .prompt-info}
+
+Mean squared error có thể tính theo code dưới đây:
+
+```python
+def mean_squared_error(y_true, y_predicted):
+	
+	# Calculating the loss or cost
+	cost = np.sum((y_true-y_predicted)**2) / len(y_true)
+	return cost
+```
+
+Khi chúng ta có vector độc dốc và vị trí hiện tại, chúng ta chỉ cần đi ngược lại với vector độ dốc. Nghĩa là ta phải trừ θ đi 1 giá trị là $∇_\theta MSE(\theta)$. Lúc này ta sẽ sử dụng tham số learning rate $\eta$ để xác định giá trị của bước xuống dốc bằng cách nhân vào.
+$$
+\theta^{(\text{next step})} =\theta - \eta  ∇_\theta MSE(\theta) \tag{5}
+$$
+Vậy là công thức về cơ bản đã đủ, ta hãy cùng triển khai với Python, trước tiên là dataset để validate thuật toán GD. ta sẽ random ra 100 data gồm 2 features:
+
+```python
+X = np.random.randn(100, 1)
+y = 4 + 3*X + np.random.randn(100, 1)
+
+plt.scatter(X, y)
+plt.show()
+```
+
+![gd-data](gd-data.png)
+
+Tiếp theo, ta sẽ code GD dựa vào các công thức bên trên
+
+```python
+def gradient_descent(x, y, iterations = 1000, learning_rate = 0.0001, stopping_threshold = 1e-6):
+	
+	# Initializing weight, bias, learning rate and iterations
+	current_weight = 0.1
+	current_bias = 0.01
+	iterations = iterations
+	n = float(len(x))
+	
+	costs = []
+	weights = []
+	previous_cost = None
+	
+	# Estimation of optimal parameters
+	for i in range(iterations):
+		
+		# Making predictions
+		y_predicted = (current_weight * x) + current_bias
+		
+		# Calculating the current cost
+		current_cost = mean_squared_error(y, y_predicted)
+
+		# If the change in cost is less than or equal to stopping_threshold we stop the gradient descent
+		if previous_cost and abs(previous_cost-current_cost)<=stopping_threshold:
+			break
+		
+		previous_cost = current_cost
+
+		costs.append(current_cost)
+		weights.append(current_weight)
+		
+		# Calculating the gradients
+		weight_derivative = -(2/n) * sum(x * (y-y_predicted))
+		bias_derivative = -(2/n) * sum(y-y_predicted)
+		
+		# Updating weights and bias
+		current_weight = current_weight - (learning_rate * weight_derivative)
+		current_bias = current_bias - (learning_rate * bias_derivative)
+        
+	return current_weight, current_bias
+
+```
+
+Sau khi đã code xong GD, ta có thể kiểm tra đối với data đã tạo bên trên
+
+```python
+# Estimating weight and bias using gradient descent
+estimated_weight, estimated_bias = gradient_descent(X, Y, iterations=2000)
+print(f"Estimated Weight: {estimated_weight}\nEstimated Bias: {estimated_bias}")
+
+# Making predictions using estimated parameters
+Y_pred = estimated_weight*X + estimated_bias
+
+# Plotting the regression line
+plt.figure(figsize = (8,6))
+plt.scatter(X, Y, marker='o', color='red')
+plt.plot([min(X), max(X)], [min(Y_pred), max(Y_pred)],
+         color='blue', markerfacecolor='red', markersize=10,linestyle='dashed')
+plt.xlabel("X")
+plt.ylabel("Y")
+plt.show()
+```
+
+![gd-loss-update](gd-cost-update.png)
+
+![fit-line](fit-line.png)
+
+Kết quả của 2 tham số weight và bias sau khi sử dụng GD là 2.84 và 4.20, khá gần với giá trị giả sử ban đầu. Rất khó để ta có thể tìm được giá trị thực như giả sử vì các data còn bị ảnh hưởng bởi nhiễu bên ngoài. Trong thực tế, việc xác định được xu hướng đúng và giá trị loss thấp vừa phải đã là thành công đối với các ML model.
+
+![gd-update-0.01](gd-update-0.01_0001.gif)
 
 ## Referenes
 
