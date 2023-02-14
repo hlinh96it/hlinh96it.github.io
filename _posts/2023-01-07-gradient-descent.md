@@ -25,6 +25,7 @@ Trong đó, $n$ là số lượng sample dùng để tính loss, $\hat{Y}_i$ là
 $$
 \hat{Y}_i = \beta + \theta X_i \tag{2}
 $$
+
 Trong đó, $\beta$ là bias cho model, $\theta$ là weight vector cho từng feature của input $X_i$.
 
 Gradient descent là thuật toán tối ưu thông qua vòng lặp (iterative optimization) với mục tiêu là update các tham số $\theta$ sao cho giá trị loss giảm dần theo số vòng lặp. GD sẽ dừng khi gặp điều kiện kết thúc như loss giảm không đáng kể nữa hoặc kết thúc số lần lặp. Giá trị của các tham số $\theta$ được update theo đạo hàm riêng với hàm loss và learning rate:
@@ -63,6 +64,8 @@ Như bạn có thể thấy, ở bên phải thuật toán Gradient Descent đi 
 $$
 \frac{\partial}{\partial\theta_j}MSE(\mathbf{\theta})  = \frac{2}{m}\sum_{i=1}^m(\mathbf{\theta}^Tx^{(i)} - y^{(i)})x^{(i)}_j \tag{4}
 $$
+
+Chắc hản bạn đọc có thể thắc mắc làm sao để có được công thức (4). Như đã đề cập ở trên, thuật toán GD sẽ tính đạo hàm riêng của hàm loss, công thức (1), đối với từng biến, ở đây là weight `w` và bias `b`, số 2 ngoài tổng là vì ta lấy đạo hàm của hàm số loss bậc 2, `m` là số lượng data, chỉ tiết được thể hiện như code `gradient_descent()` bên dưới. 
 
 > Sở dĩ ta gọi công thức trên là batch GD vì nó tính toán dựa trên toàn bộ data. Việc sử dụng tất cả data để tính một lần có thể gây nên hiện tượng training rất lâu và khối lượng tính toán lớn. Nhưng vẫn rất nhanh khi so sánh với phương pháp tìm nghiệm thông thường, đặc biệt là khi số  lượng features tăng lên hàng trăm hoặc thậm chí hàng ngàn. 
 {: .prompt-info}
@@ -168,14 +171,19 @@ Kết quả của 2 tham số weight và bias sau khi sử dụng GD là 2.84 v�
 
 Ngoài ra, còn một tham số nữa cũng rất quan trọng như đã đề cập ở phần trên, đó là `learning_rate`. Hình dưới minh họa quá trình optimize của GD khi ta đặt các giá trị `learning_rate` khác nhau. Có thể thấy, nếu ta chọn được các tham số phù hợp, ta có thể tìm được weight và bias gần với giá trị đúng nhất. Ngược lại, nếu tham số ta chọn không hiệu quả có thể làm model không thể hoặc rất lâu mới tìm được tham số optimal cho weight và bias.
 
-![gd-update](gd-learning-rate.gif)
+![gd-update](gd-learning-rate.gif)_Source: https://oyane806.github.io/dl-in-minutes/_
 
 Vậy thì câu hỏi là làm thế nào để tìm được các tham số phù hợp? Grid search có thể là một giải pháp nhưng phương pháp này tốn nhiều thời gian vì nó sẽ phải thử từng cặp giá trị của các tham số. Đây cũng là một hướng nghiên cứu, các bạn có thể tìm đọc thêm lại đây: [Hyperparameters Optimization](https://towardsdatascience.com/hyperparameters-optimization-526348bb8e2d).
 
 > Khi cost function is convex và độ dốc của nó không thay đổi đột ngột (như trường hợp của hàm chi phí MSE), Batch Gradient Descent với tốc độ học (`learning_rate`) cố định cuối cùng sẽ hội tụ về giải pháp tối ưu, nhưng bạn có thể phải đợi một lúc: nó có thể lặp lại $O(1/\epsilon)$ để đạt được mức tối ưu trong phạm vi ε, tùy thuộc vào hình dạng của hàm chi phí. Nếu bạn chia dung sai cho 10 để có giải pháp chính xác hơn, thì thuật toán có thể phải chạy lâu hơn khoảng 10 lần.
 {: .prompt-info}
 
+## Stochastic Gradient Descent
+
+
+
 ## Referenes
 
 1. https://ndquy.github.io/posts/gradient-descent-2/
 1. https://towardsdatascience.com/hyperparameters-optimization-526348bb8e2d
+1. https://oyane806.github.io/dl-in-minutes/
