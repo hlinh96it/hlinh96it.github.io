@@ -21,6 +21,7 @@ $$
 $$
 
 Trong đó, $n$ là số lượng sample dùng để tính loss, $\hat{Y}_i$ là giá trị predict cho sample $i$. $\hat{Y}_i$ có thể được tính bởi công thức:
+
 $$
 \hat{Y}_i = \beta + \theta X_i \tag{2}
 $$
@@ -58,6 +59,7 @@ Như bạn có thể thấy, ở bên phải thuật toán Gradient Descent đi 
 ## Batch Gradient Descent
 
 Để tìm được optimal weight cho các features, thuật toán GD sẽ tính gradient của hàm loss đối với mỗi model parameters $\theta_j$. Hay nói cách khác, ta cần biết loss thay đổi bao nhiêu nếu ta thay đổi giá trị của $\theta_j$ với một lượng nhất định, gọi là đạo hàm riêng (partial derivative). Để tính đạo hàm riêng, ta có thể sử dụng công thức:
+
 $$
 \frac{\partial}{\partial\theta_j}MSE(\mathbf{\theta})  = \frac{2}{m}\sum_{i=1}^m(\mathbf{\theta}^Tx^{(i)} - y^{(i)})x^{(i)}_j \tag{4}
 $$
@@ -70,9 +72,9 @@ Mean squared error có thể tính theo code dưới đây:
 ```python
 def mean_squared_error(y_true, y_predicted):
 	
-	# Calculating the loss or cost
-	cost = np.sum((y_true-y_predicted)**2) / len(y_true)
-	return cost
+    # Calculating the loss or cost
+    cost = np.sum((y_true-y_predicted)**2) / len(y_true)
+    return cost
 ```
 
 Khi chúng ta có vector độc dốc và vị trí hiện tại, chúng ta chỉ cần đi ngược lại với vector độ dốc. Nghĩa là ta phải trừ θ đi 1 giá trị là $∇_\theta MSE(\theta)$. Lúc này ta sẽ sử dụng tham số learning rate $\eta$ để xác định giá trị của bước xuống dốc bằng cách nhân vào.
@@ -133,7 +135,6 @@ def gradient_descent(x, y, iterations = 1000, learning_rate = 0.0001, stopping_t
 		current_bias = current_bias - (learning_rate * bias_derivative)
         
 	return current_weight, current_bias
-
 ```
 
 Sau khi đã code xong GD, ta có thể kiểm tra đối với data đã tạo bên trên
