@@ -160,9 +160,11 @@ plt.show()
 
 ![gd-loss-update](gd-cost-update.png)
 
+Kết quả của 2 tham số weight và bias sau khi sử dụng GD là 2.84 và 4.20, khá gần với giá trị giả sử ban đầu. Rất khó để ta có thể tìm được giá trị thực như giả sử vì các data còn bị ảnh hưởng bởi nhiễu bên ngoài. Trong thực tế, việc xác định được xu hướng đúng và giá trị loss thấp vừa phải đã là thành công đối với các ML model.
+
 ![fit-line](fit-line.png)
 
-Kết quả của 2 tham số weight và bias sau khi sử dụng GD là 2.84 và 4.20, khá gần với giá trị giả sử ban đầu. Rất khó để ta có thể tìm được giá trị thực như giả sử vì các data còn bị ảnh hưởng bởi nhiễu bên ngoài. Trong thực tế, việc xác định được xu hướng đúng và giá trị loss thấp vừa phải đã là thành công đối với các ML model.
+Ngoài ra, còn một tham số nữa cũng rất quan trọng như đã đề cập ở phần trên, đó là `learning_rate`. Hình dưới minh họa quá trình optimize của GD khi ta đặt các giá trị `learning_rate` khác nhau. Có thể thấy, nếu ta chọn được các tham số phù hợp, ta có thể tìm được weight và bias gần với giá trị đúng nhất. Ngược lại, nếu tham số ta chọn không hiệu quả có thể làm model không thể hoặc rất lâu mới tìm được tham số optimal cho weight và bias.
 
 ![gd-update-0.01](gd-update-0.01_0001.gif)
 
