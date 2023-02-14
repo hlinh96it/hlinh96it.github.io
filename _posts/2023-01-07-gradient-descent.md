@@ -96,45 +96,46 @@ plt.show()
 Tiếp theo, ta sẽ code GD dựa vào các công thức bên trên
 
 ```python
-def gradient_descent(x, y, iterations = 1000, learning_rate = 0.0001, stopping_threshold = 1e-6):
-	
-	# Initializing weight, bias, learning rate and iterations
-	current_weight = 0.1
-	current_bias = 0.01
-	iterations = iterations
-	n = float(len(x))
-	
-	costs = []
-	weights = []
-	previous_cost = None
-	
-	# Estimation of optimal parameters
-	for i in range(iterations):
-		
-		# Making predictions
-		y_predicted = (current_weight * x) + current_bias
-		
-		# Calculating the current cost
-		current_cost = mean_squared_error(y, y_predicted)
+def gradient_descent(x, y, iterations = 1000, learning_rate = 0.01,
+    stopping_threshold = 1e-6):
 
-		# If the change in cost is less than or equal to stopping_threshold we stop the gradient descent
-		if previous_cost and abs(previous_cost-current_cost)<=stopping_threshold:
-			break
-		
-		previous_cost = current_cost
+    # Initializing weight, bias, learning rate and iterations
+    current_weight = 0.1
+    current_bias = 0.01
+    iterations = iterations
+    learning_rate = learning_rate
+    n = float(len(x))
 
-		costs.append(current_cost)
-		weights.append(current_weight)
-		
-		# Calculating the gradients
-		weight_derivative = -(2/n) * sum(x * (y-y_predicted))
-		bias_derivative = -(2/n) * sum(y-y_predicted)
-		
-		# Updating weights and bias
-		current_weight = current_weight - (learning_rate * weight_derivative)
-		current_bias = current_bias - (learning_rate * bias_derivative)
-        
-	return current_weight, current_bias
+    costs = []
+    weights = []
+    previous_cost = None
+
+    # Estimation of optimal parameters
+    for i in range(iterations):
+
+        # Making predictions
+        y_predicted = (current_weight * x) + current_bias
+
+        # Calculating the current cost
+        current_cost = mean_squared_error(y, y_predicted)
+
+        # If the change in cost is less than or equal to
+        # stopping_threshold we stop the gradient descent
+        if previous_cost and abs(previous_cost-current_cost)<=stopping_threshold:
+            break
+
+        previous_cost = current_cost
+
+        costs.append(current_cost)
+        weights.append(current_weight)
+
+        # Calculating the gradients
+        weight_derivative = -(2/n) * sum(x * (y-y_predicted))
+        bias_derivative = -(2/n) * sum(y-y_predicted)
+
+        # Updating weights and bias
+        current_weight = current_weight - (learning_rate * weight_derivative)
+        current_bias = current_bias - (learning_rate * bias_derivative)
 ```
 
 Sau khi đã code xong GD, ta có thể kiểm tra đối với data đã tạo bên trên
