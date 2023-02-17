@@ -74,9 +74,8 @@ Mean squared error có thể tính theo code dưới đây:
 
 ```python
 def mean_squared_error(y_true, y_predicted):
-	
-    # Calculating the loss or cost
     cost = np.sum((y_true-y_predicted)**2) / len(y_true)
+    
     return cost
 ```
 
@@ -104,16 +103,16 @@ Tiếp theo, ta sẽ code GD dựa vào các công thức bên trên
 def batch_gradient_descent(X, y, weight, bias, learning_rate=0.01, num_iterations=200):
 	training_size = X.shape[0]
 	
-	for idx in range(num_iterations):
-		weight_derivative = -(2/training_size) * sum(X * (y - (weight*X + bias)))
-		bias_derivative = -(2/training_size) * sum(y - (weight*X + bias))
-		
-		weight -= learning_rate * weight_derivative
-		bias -= learning_rate * bias_derivative
-		
-		loss = mean_squared_error(y, weight*X + bias)
-		print(f'Loss at iteration {idx}: {loss}')
-		
+    for idx in range(num_iterations):
+        weight_derivative = -(2/training_size) * sum(X * (y - (weight*X + bias)))
+        bias_derivative = -(2/training_size) * sum(y - (weight*X + bias))
+
+        weight -= learning_rate * weight_derivative
+        bias -= learning_rate * bias_derivative
+
+        loss = mean_squared_error(y, weight*X + bias)
+        print(f'Loss at iteration {idx}: {loss}')
+
 	return weight, bias
 ```
 
