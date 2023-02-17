@@ -12,7 +12,6 @@ def learning_rate_schedule(num_epochs, epoch, sample):
 
 def stochastic_gradient_descent(X, y, weight, bias, num_epochs=100, num_train_sample=30):
 	training_size = X.shape[0]
-	loss_epoch = []
 
 	for epoch in range(1, num_epochs):
   
@@ -29,12 +28,6 @@ def stochastic_gradient_descent(X, y, weight, bias, num_epochs=100, num_train_sa
 
 		weight -= learning_rate * weight_derivative
 		bias -= learning_rate * bias_derivative
-	
-		predicted = weight*train_sample_data + bias
-		loss_epoch.append(mean_squared_error(train_sample_label, predicted))
-
-	plt.plot(loss_epoch)
-	plt.show()
    
 	return weight, bias
 		

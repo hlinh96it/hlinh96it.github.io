@@ -68,7 +68,7 @@ $$
 Chắc hản bạn đọc có thể thắc mắc làm sao để có được công thức (4). Như đã đề cập ở trên, thuật toán GD sẽ tính đạo hàm riêng của hàm loss, công thức (1), đối với từng biến, ở đây là weight `w` và bias `b`, số 2 ngoài tổng là vì ta lấy đạo hàm của hàm số loss bậc 2, `m` là số lượng data, chỉ tiết được thể hiện như code `gradient_descent()` bên dưới. 
 
 > Sở dĩ ta gọi công thức trên là batch GD vì nó tính toán dựa trên toàn bộ data. Việc sử dụng tất cả data để tính một lần có thể gây nên hiện tượng training rất lâu và khối lượng tính toán lớn. Nhưng vẫn rất nhanh khi so sánh với phương pháp tìm nghiệm thông thường, đặc biệt là khi số  lượng features tăng lên hàng trăm hoặc thậm chí hàng ngàn. 
-{: .prompt-info}
+{: .prompt-tip }
 
 Mean squared error có thể tính theo code dưới đây:
 
@@ -168,26 +168,24 @@ def learning_rate_schedule(num_epochs, epoch, sample):
 Sau khi đã có hàm giảm dần `learning_rate`, ta tiến hành train với chỉ 20 data mỗi epoch và cho chạy 20 epochs:
 
 ```python
-def stochastic_gradient_descent(X, y, weight, bias, num_epochs=20, num_train_sample=20):
+def stochastic_gradient_descent(X, y, weight, bias, num_epochs=100, num_train_sample=30):
 	training_size = X.shape[0]
-	
-	for epoch in range(1, num_epochs):
-		for sample in range(1, num_train_sample):
-			
-			random_index = np.random.randint(training_size)
-			xi, yi = X[random_index], y[random_index]
-			
-			weight_derivative = -(2/training_size) * sum(xi * (yi - (weight*xi + bias)))
-			bias_derivative = -(2/training_size) * sum(yi - (weight*xi + bias))
-			
-			# calculate learning rate
-			learning_rate = learning_rate_schedule(num_epochs, epoch, sample)
 
-			weight -= learning_rate * weight_derivative
-			bias -= learning_rate * bias_derivative
-   
-		loss = mean_squared_error(y, weight*X + bias)
-		print(f'loss at {epoch} epoch: {loss}', end='\n')
+	for epoch in range(1, num_epochs):
+  
+		train_sample_idx = np.random.randint(low=0, high=training_size, size=num_train_sample)
+		train_sample_data = np.take(X, train_sample_idx, axis=0)
+		train_sample_label = np.take(y, train_sample_idx, axis=0)
+  
+		weight_derivative = -(2/training_size) * sum(train_sample_data * (train_sample_label - \
+			(weight*train_sample_data + bias)))
+		bias_derivative = -(2/training_size) * sum(train_sample_label - (weight*train_sample_data + bias))
+		
+		# calculate learning rate
+		learning_rate = learning_rate_schedule(epoch)
+
+		weight -= learning_rate * weight_derivative
+		bias -= learning_rate * bias_derivative
    
 	return weight, bias
 ```
@@ -204,6 +202,7 @@ Wow, kết quả cho ra `weight = 3.938` và `bias = 2.872`, trong đó `loss = 
 Phương pháp cuối cùng thuộc GD là mini-batch GD, là sự kết hợp ưu và nhược điểm giữa batch và stochastic GD. Nói cách khác, thay vì train cả tập data hay chỉ dùng 1 sample để tính toán, ta có thể tính gradients trên một tập nhỏ data. 
 
 > Ưu điểm chính của Mini-batch GD so với Stochastic GD là ta có thể tăng performance từ việc tối ưu hóa phần cứng cho các tính toán ma trận, đặc biệt là khi sử dụng GPU để tính toán song song. Điều này có thể thực hiện bằng cách sử dụng thư viện `numpy`.
+{: .prompt-info}
 
 ```python
 def mini_batch_gradient_descent(X, y, weight, bias, learning_rate=0.01, num_iterations=200):
