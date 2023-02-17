@@ -101,19 +101,19 @@ Tiếp theo, ta sẽ code GD dựa vào các công thức bên trên
 
 ```python
 def batch_gradient_descent(X, y, weight, bias, learning_rate=0.01, num_iterations=200):
-	training_size = X.shape[0]
-	
+    training_size = X.shape[0]
+
     for idx in range(num_iterations):
-        weight_derivative = -(2/training_size) * sum(X * (y - (weight*X + bias)))
-        bias_derivative = -(2/training_size) * sum(y - (weight*X + bias))
+        weight_derivative = -(2 / training_size) * sum(X * (y - (weight * X + bias)))
+        bias_derivative = -(2 / training_size) * sum(y - (weight * X + bias))
 
         weight -= learning_rate * weight_derivative
         bias -= learning_rate * bias_derivative
 
-        loss = mean_squared_error(y, weight*X + bias)
+        loss = mean_squared_error(y, weight * X + bias)
         print(f'Loss at iteration {idx}: {loss}')
 
-	return weight, bias
+    return weight, bias
 ```
 
 Sau khi đã code xong GD, ta có thể kiểm tra đối với data đã tạo bên trên
@@ -168,25 +168,24 @@ Sau khi đã có hàm giảm dần `learning_rate`, ta tiến hành train với 
 
 ```python
 def stochastic_gradient_descent(X, y, weight, bias, num_epochs=100, num_train_sample=30):
-	training_size = X.shape[0]
+    training_size = X.shape[0]
 
-	for epoch in range(1, num_epochs):
-  
-		train_sample_idx = np.random.randint(low=0, high=training_size, size=num_train_sample)
-		train_sample_data = np.take(X, train_sample_idx, axis=0)
-		train_sample_label = np.take(y, train_sample_idx, axis=0)
-  
-		weight_derivative = -(2/training_size) * sum(train_sample_data * (train_sample_label - \
-			(weight*train_sample_data + bias)))
-		bias_derivative = -(2/training_size) * sum(train_sample_label - (weight*train_sample_data + bias))
-		
-		# calculate learning rate
-		learning_rate = learning_rate_schedule(epoch)
+    for epoch in range(1, num_epochs):
+        train_sample_idx = np.random.randint(low=0, high=training_size, size=num_train_sample)
+        train_sample_data = np.take(X, train_sample_idx, axis=0)
+        train_sample_label = np.take(y, train_sample_idx, axis=0)
 
-		weight -= learning_rate * weight_derivative
-		bias -= learning_rate * bias_derivative
-   
-	return weight, bias
+        weight_derivative = -(2 / training_size) * sum(
+            train_sample_data * (train_sample_label - (weight * train_sample_data + bias)))
+        bias_derivative = -(2 / training_size) * sum(train_sample_label - (weight * train_sample_data + bias))
+
+        # calculate learning rate
+        learning_rate = learning_rate_schedule(epoch)
+
+        weight -= learning_rate * weight_derivative
+        bias -= learning_rate * bias_derivative
+
+    return weight, bias
 ```
 
 ```python
@@ -204,26 +203,23 @@ Phương pháp cuối cùng thuộc GD là mini-batch GD, là sự kết hợp �
 {: .prompt-info}
 
 ```python
-def mini_batch_gradient_descent(X, y, weight, bias, learning_rate=0.01, num_iterations=200):
-	training_size = X.shape[0]
-	loss_epoch = []
+def mini_batch_gradient_descent(X, y, weight, bias, num_epochs=100, num_train_sample=30):
+    training_size = X.shape[0]
 
-	for epoch in range(1, num_epochs):
-  
-		train_sample_idx = np.random.randint(low=0, high=training_size, size=num_train_sample)
-		train_sample_data = np.take(X, train_sample_idx, axis=0)
-		train_sample_label = np.take(y, train_sample_idx, axis=0)
-  
-		weight_derivative = -(2/training_size) * sum(train_sample_data * (train_sample_label - \
-			(weight*train_sample_data + bias)))
-		bias_derivative = -(2/training_size) * sum(train_sample_label - (weight*train_sample_data + bias))
+    for epoch in range(1, num_epochs):
+        train_sample_idx = np.random.randint(low=0, high=training_size, size=num_train_sample)
+        train_sample_data = np.take(X, train_sample_idx, axis=0)
+        train_sample_label = np.take(y, train_sample_idx, axis=0)
 
-		weight -= learning_rate * weight_derivative
-		bias -= learning_rate * bias_derivative
-	
-		predicted = weight*train_sample_data + bias
-   
-	return weight, bias
+        weight_derivative = -(2 / training_size) * sum(train_sample_data * (train_sample_label - \
+                                                                            (weight * train_sample_data + bias)))
+        bias_derivative = -(2 / training_size) * sum(train_sample_label - (weight * train_sample_data + bias))
+
+        weight -= learning_rate * weight_derivative
+        bias -= learning_rate * bias_derivative
+
+    return weight, bias
+
 ```
 
 ## So sánh và Kết luận
