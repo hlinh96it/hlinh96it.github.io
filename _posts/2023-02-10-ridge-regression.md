@@ -23,6 +23,7 @@ Nếu để ý, ta có thể nhận thấy rằng nếu ta cho giá trị weight
 ## Sự thay đổi của hàm mất mát trong hồi qui Ridge
 
 Về cơ bản, thuật toán Ridge Regression là một biến thể khác của Linear Regression, trong đó ta thêm một thành phần hiệu chỉnh (regularization) vào hàm tính toán loss. Điều này không những giúp model có thể mô tả được pattern của data tốt hơn mà còn giữ các tham số của model nhỏ nhất có thể. 
+
 $$
 \begin{split}\begin{eqnarray} \mathcal{L}(\mathbf{w}) & = & \frac{1}{N}||\bar{\mathbf{X}}\mathbf{w} - \mathbf{y}||_{2}^{2} + \alpha ||\mathbf{w}||_2^2 \\
 & = & \frac{1}{N}||\bar{\mathbf{X}}\mathbf{w} - \mathbf{y}||_{2}^{2} + \underbrace{\alpha R(\mathbf{w})}_{\text{regularization term}}
