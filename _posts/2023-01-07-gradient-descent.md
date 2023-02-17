@@ -226,7 +226,7 @@ def mini_batch_gradient_descent(X, y, weight, bias, num_epochs=100, num_train_sa
 
 Hình dưới cho thấy các giá trị `weight` được thực hiện bởi 3 thuật toán Gradient Descent trong quá trình training. Tất cả đều kết thúc ở mức gần điểm optima, nhưng đường đi của batch GD dừng lại ở mức optima tốt nhất, trong khi cả Stochastic GD và mini-batch GD tiếp tục đi lòng vòng. Tuy nhiên, batch GD cần rất nhiều thời gian, trong khi đó Stochastic GD và mini-batch GD cũng sẽ đạt được optima nếu ta tìm được các hyper-parameters tốt.
 
-![gd-comparison](gd-comparison.png)_Quá trình update của Batch, Stochastic và Mini-batch GD. Source: (https://www.analyticsvidhya.com/blog/2022/07/gradient-descent-and-its-types/)_
+![gd-comparison](gd-comparison.png)_Quá trình update của Batch, Stochastic và Mini-batch GD. Source: https://www.analyticsvidhya.com_
 
 ## Referenes
 

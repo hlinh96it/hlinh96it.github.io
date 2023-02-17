@@ -1,5 +1,5 @@
 ---
-title: Thuật toán Linear Regression in Python
+title: Thuật toán Linear Regression, Ridge, Lasso và Elastic Net in Python
 author: hoanglinh
 categories: [Machine Learning]
 tags: [regression model]

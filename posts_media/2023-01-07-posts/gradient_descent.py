@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from sklearn.preprocessing import PolynomialFeatures
 
 
 def mean_squared_error(y_true, y_predicted):
@@ -57,8 +58,7 @@ def mini_batch_gradient_descent(X, y, weight, bias, num_epochs=100, num_train_sa
         train_sample_data = np.take(X, train_sample_idx, axis=0)
         train_sample_label = np.take(y, train_sample_idx, axis=0)
 
-        weight_derivative = -(2 / training_size) * sum(train_sample_data * (train_sample_label - \
-                                                                            (weight * train_sample_data + bias)))
+        weight_derivative = -(2 / training_size) * sum(train_sample_data * (train_sample_label - (weight * train_sample_data + bias)))
         bias_derivative = -(2 / training_size) * sum(train_sample_label - (weight * train_sample_data + bias))
 
         weight -= learning_rate * weight_derivative
@@ -74,5 +74,6 @@ bias = np.random.random()
 
 learning_rate = 0.1
 num_epochs = 200
-weight, bias = stochastic_gradient_descent(X, y, weight, bias, num_epochs)
-print(weight, bias)
+# weight, bias = stochastic_gradient_descent(X, y, weight, bias, num_epochs)
+# print(weight, bias)
+
