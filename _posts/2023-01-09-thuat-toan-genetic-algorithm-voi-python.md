@@ -125,7 +125,7 @@ def individual_selection(generation, method='fittest-half'):
     selected_range = int(len(generation['individuals']) // 2)
 
     generation['normalized_fitness'] = sorted(
-        [generation['fitness'][x] / sum(generation['fitness'])
+        [generation['fitness'][x] / sum(generation['fitness']) \
          for x in range(len(generation['fitness']))], reverse=True
     )
 
@@ -137,13 +137,11 @@ def individual_selection(generation, method='fittest-half'):
         selected_individuals = []
 
         for x in range(selected_range):
-            selected_individuals.append(
-                roulette(generation['cum_sum'], random.random()))
+            selected_individuals.append(roulette(generation['cum_sum'], random.random()))
 
             # check if there are some duplicated individuals
             while len(set(selected_individuals)) != len(selected_individuals):
-                selected_individuals[x] = roulette(
-                    generation['cum_sum'], random.random())
+                selected_individuals[x] = roulette(generation['cum_sum'], random.random())
 
         selected_individuals = {
             'individuals': [generation['individuals'][selected_individuals[idx]] for idx in range(selected_range)],
@@ -157,8 +155,7 @@ def individual_selection(generation, method='fittest-half'):
         }
 
     elif method == 'random':
-        random_inds = random.sample(
-            range(len(generation['individuals'])), selected_range)
+        random_inds = random.sample(range(len(generation['individuals'])), selected_range)
         selected_individuals = {
             'individuals': [generation['individuals'][idx] for idx in random_inds],
             'fitness': [generation['fitness'][idx] for idx in random_inds]
@@ -385,9 +382,9 @@ Bây giờ tất cả function chúng ta cần cho thuật toán di truyền đ�
 
 Thuật toán di truyền GA có thể được sử dụng để giải quyết các vấn đề tối ưu hóa ràng buộc đa tham số. Giống như hầu hết các thuật toán tối ưu hóa, thuật toán di truyền có thể được triển khai trực tiếp từ một số thư viện như `sklearn`, nhưng việc code lại thuật toán từ đầu sẽ giúp ta hiểu về cách thức hoạt động của thuật toán và cần phải  được điều chỉnh cho phù hợp với một vấn đề cụ thể hoặc cái bài toán tối ưu khác nhau.
 
-Cảm ơn bạn đã đọc, tôi hy vọng bài viết hữu ích. Nếu bạn có câu thắc mắc nào hãy để lại ở dưới phần bình luận!
+Cảm ơn bạn đã đọc, tôi hy vọng bài viết hữu ích. Nếu bạn có câu thắc mắc nào hãy để lại ở dưới phần bình luận bên dưới nhé!
 
-> Bạn đọc có thể tìm thấy code full tại repo của mình trại [đây](https://gist.github.com/hlinh96it/2a96fa4e7bc4d6f83a52633f8a77c956).
+> Bạn đọc có thể tìm thấy code full của mình tại repo [đây](https://gist.github.com/hlinh96it/2a96fa4e7bc4d6f83a52633f8a77c956).
 {: .prompt-info}
 
 # References
