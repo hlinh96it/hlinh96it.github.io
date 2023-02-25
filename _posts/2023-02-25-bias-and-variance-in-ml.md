@@ -29,7 +29,7 @@ Một model Machine Learning có thể gặp phải tình trạng **low hoặc h
 > Nói chung, thuật toán tuyến tính (eg. linear regression) thường có bias cao, vì nó đơn giản và học nhanh. Thuật toán càng đơn giản thì khả năng xảy ra sai lệch càng cao. Trong khi đó thuật toán phi tuyến tính (polynomial) thường cho ra bias thấp hơn.
 {: .prompt-tip }
 
-![low-high-bias](low-high-bias.png)_High vs low bias - Source: ([Bias Vs Variance Tradeoff: Understanding It The Better Way 2022](https://buggyprogrammer.com/bias-vs-variance-tradeoff/)_)
+![low-high-bias](low-high-bias.png)_High vs low bias - Source: <https://buggyprogrammer.com/bias-vs-variance-tradeoff/>_
 
 **Phương sai (variance)** có thể hiểu là hiện tượng model dự báo có độ dao động lớn nhưng lại thiếu tính tổng quát về xu hướng hay đặc tính của tổng thể data. Những lớp mô hình **phức tạp** được huấn luyện trên tập huấn luyện **nhỏ và đơn giản** thường xảy ra hiện tượng phương sai cao (high variance) và dẫn tới việc ***học vẹt*** thông qua bắt chước dữ liệu hơn là học qui luật tổng quát. 
 
@@ -37,7 +37,7 @@ Khi mô hình có độ chệch lớn hoặc phương sai lớn đều ảnh hư
 
 Ví dụ khi luyện thi đại học, nếu bạn chỉ luyện khoảng 1-2 đề trước khi thi thì bạn sẽ bị **underfitting** vì bạn chưa hiểu hết cấu trúc, nội dung của đề thi. Tuy nhiên nếu bạn chỉ luyện kĩ 50 đề thầy cô giáo bạn soạn và đưa cho thì khả năng bạn sẽ bị **overfitting** với các đề mà thầy cô giáo các bạn soạn mà khi thi đại học có thể điểm số của các bạn vẫn tệ.
 
-![tradeoff](Bias-Variance-Tradeoff.png)_Source: [Bias-Variance Tradeoff — The Science of Machine Learning](https://www.ml-science.com/bias-variance-tradeoff)_
+![tradeoff](Bias-Variance-Tradeoff.png)_Source: <https://www.ml-science.com/bias-variance-tradeoff>_
 
 ## Đánh giá và Giải pháp
 
@@ -47,6 +47,7 @@ Có 2 thông số thường được sử dụng để đánh giá bias and vari
 | :-------------: | :---------------: | :-------: | :-------------------------: | --------------------- |
 |  Val set error  |      **11%**      |    16%    |           **30%**           | 1%                    |
 |                 | **High variance** | High bias | **High bias High variance** | Low bias Low variance |
+|<img width=200/>|<img width=500/>|
 
 Giải quyết high bias (underfitting): Ta cần tăng độ phức tạp của model
 
@@ -60,4 +61,4 @@ Giải quyết high variance (overfitting):
 
 ## References
 
-1. https://nttuan8.com/bai-10-cac-ky-thuat-co-ban-trong-deep-learning/#Bias_va_variance
+1. <https://nttuan8.com/bai-10-cac-ky-thuat-co-ban-trong-deep-learning/#Bias_va_variance>
