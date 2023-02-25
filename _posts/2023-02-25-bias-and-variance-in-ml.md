@@ -47,7 +47,6 @@ Có 2 thông số thường được sử dụng để đánh giá bias and vari
 | :-------------: | :---------------: | :-------: | :-------------------------: | --------------------- |
 |  Val set error  |      **11%**      |    16%    |           **30%**           | 1%                    |
 |                 | **High variance** | High bias | **High bias High variance** | Low bias Low variance |
-|<img width=200/>|<img width=500/>|
 
 Giải quyết high bias (underfitting): Ta cần tăng độ phức tạp của model
 
