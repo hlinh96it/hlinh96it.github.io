@@ -19,7 +19,7 @@ timezone: Asia/Taipei
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
 
-title: Linh H. Truong                          # the main title
+title: Code with Linh | Machine learning and Deep learning Blog                      # the main title
 
 tagline: Everything comes from an idea. Just do it and keep your motivation
 
@@ -48,7 +48,7 @@ social:
     - https://www.facebook.com/takeishyno
     - https://www.linkedin.com/in/linhtruong96/
 
-google_site_verification:               # fill in to your verification string
+google-site-verification: googleb15ad61dde84483d.html             # fill in to your verification string
 
 # ↑ --------------------------
 # The end of `jekyll-seo-tag` settings

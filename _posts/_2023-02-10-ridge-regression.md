@@ -2,7 +2,7 @@
 title: Thuật toán Ridge Regression in Python
 author: hoanglinh
 categories: [Machine Learning]
-tags: [regression model]
+tags: [regression]
 math: true
 img_path: posts_media/2023-02-18-posts/
 ---

@@ -1,8 +1,8 @@
 ---
 title: Khái niệm Bias và Variance trong Machine Learning
 author: hoanglinh
-categories: [Machine Learning]
-tags: [fundamental concepts]
+categories: [Fundamental Concepts]
+tags: []
 math: true
 img_path: posts_media/2023-02-25-posts/
 ---
@@ -43,17 +43,17 @@ Ví dụ khi luyện thi đại học, nếu bạn chỉ luyện khoảng 1-2 đ
 
 Có 2 thông số thường được sử dụng để đánh giá bias and variance của mô hình là training set error và validation set error. Ví dụ error (1-accuracy) trong logistic regression. Ta mong muốn model là low bias và low variance.
 
-| Train set error |      **1%**       |    15%    |           **15%**           | 0.5%                  |
-| :-------------: | :---------------: | :-------: | :-------------------------: | --------------------- |
-|  Val set error  |      **11%**      |    16%    |           **30%**           | 1%                    |
+| Train set error |      **1%**       |    15%    |           **15%**           |         0.5%          |
+| :-------------- | :---------------: | :-------: | :-------------------------: | :-------------------: |
+| Val set error   |      **11%**      |    16%    |           **30%**           |          1%           |
 |                 | **High variance** | High bias | **High bias High variance** | Low bias Low variance |
 
-Giải quyết high bias (underfitting): Ta cần tăng độ phức tạp của model
+**Giải quyết high bias (underfitting)**: 
 
-- Tăng số lượng hidden layer và số node trong mỗi hidden layer.
+- Ta cần tăng độ phức tạp của model, tăng số lượng hidden layer và số node trong mỗi hidden layer.
 - Dùng nhiều epochs hơn để train model.
 
-Giải quyết high variance (overfitting):
+**Giải quyết high variance (overfitting):**
 
 - Thu thập thêm dữ liệu hoặc dùng [data augmentation](https://nttuan8.com/bai-9-transfer-learning-va-data-augmentation/#Data_augmentation)
 - Dùng regularization như: L1, L2, **droupout**

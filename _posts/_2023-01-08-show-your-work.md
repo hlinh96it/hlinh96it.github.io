@@ -1,7 +1,7 @@
 ---
 title: Review sách Show your work - Nghệ thuật PR bản thân!
 author: hoanglinh
-categories: [Blog]
+categories: [Blogging]
 tags: [self-developement]
 img_path: posts_media/2023-01-07-posts/
 image:

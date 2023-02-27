@@ -1,8 +1,8 @@
 ---
 title: Giải thuật di truyền (Genetic Algorithm) với Python (Phần 1)
 author: hoanglinh
-categories: [Meta-heuristic Algorithm]
-tags: [optimization algorithms]
+categories: [Optimization Algorithms]
+tags: [meta-heuristics algorithm]
 math: true
 img_path: posts_media/2023-01-09-posts/
 image:
@@ -340,7 +340,7 @@ def fitness_similarity_chech(max_fitness, number_of_similarity):
     return result
 ```
 
-# Running the Algorithm
+## Running the Algorithm
 
 Bây giờ tất cả function chúng ta cần cho thuật toán di truyền đã sẵn sàng, chúng ta có thể bắt đầu quá trình tối ưu hóa. Để chạy thuật toán di truyền với 20 cá thể trong mỗi thế hệ:
 
