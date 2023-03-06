@@ -87,16 +87,9 @@ avatar: "hero.png"
 toc: true
 
 comments:
-  active: giscus    # The global switch for posts comments, e.g., 'disqus'.  Keep it empty means disable
-  # The active options are as follows:
-  disqus:
-    shortname:    # fill with the Disqus shortname. › https://help.disqus.com/en/articles/1717111-what-s-a-shortname
-  # utterances settings › https://utteranc.es/
-  utterances:
-    repo:         # <gh-username>/<repo>
-    issue_term:   # < url | pathname | title | ...>
-  # Giscus options › https://giscus.app
-  giscus: "https://giscus.app/client.js"
+  active: "giscus"
+  giscus: 
+    src: "https://giscus.app/client.js"
     repo: "hlinh96it/hlinh96it.github.io"           # <gh-username>/<repo>
     repo_id: "R_kgDOJFy1Ig"
     category: "Announcements"
@@ -104,7 +97,7 @@ comments:
     mapping: "pathname"           # optional, default to 'pathname'
     input_position: "top"   # optional, default to 'bottom'
     lang: "en"              # optional, default to the value of `site.lang`
-    reactions_enabled: “1” # optional, default to the value of `1`
+    reactions_enabled: 1 # optional, default to the value of `1`
 
 # Self-hosted static assets, optional › https://github.com/cotes2020/chirpy-static-assets
 assets:
