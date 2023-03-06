@@ -4,7 +4,7 @@ author: hoanglinh
 categories: [Fundamental Concepts]
 tags: []
 math: true
-img_path: posts_media/2023-02-25-posts/
+img_path: posts_media/2023-02-25-bias-and-variance-in-ml/
 ---
 
 Chắc hẳn trong quá trình xây dựng mô hình bạn đã từng đối mặt với vấn đề mô hình dự báo tốt trên tập huấn luyện nhưng không dự báo tốt trên tập kiểm tra. Trước khi đọc bài viết này, bạn không hiểu nguyên nhân từ đâu và khắc phục như thế nào. Bài viết này sẽ cung cấp cho bạn các kiến thức liên quan tới lỗi mô hình, cách phòng tránh cũng như làm thế nào để khắc phục chúng.

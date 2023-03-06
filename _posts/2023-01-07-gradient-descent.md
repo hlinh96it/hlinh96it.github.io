@@ -4,7 +4,7 @@ author: hoanglinh
 categories: [Optimization Algorithms]
 tags: []
 math: true
-img_path: posts_media/2023-01-07-posts/
+img_path: posts_media/2023-01-07-gradient-descent/
 ---
 
 ## Giới thiệu về thuật toán Gradient Descent (GD)

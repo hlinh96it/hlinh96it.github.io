@@ -4,7 +4,7 @@ author: hoanglinh
 categories: [Machine Learning]
 tags: [dimensional reduction, regression]
 math: true
-img_path: posts_media/2023-02-02-posts/
+img_path: posts_media/2023-02-02-partial-least-square-regression-with-python/
 ---
 
 Trong bài viết này, chúng ta sẽ cùng nhau tìm hiểu về Partial Least Squares (PLS). Đúng như tên gọi của nó, PLS có liên quan đến Ordinary Least Squares, nó là một phương pháp toán học cơ bản để tìm ra đường fitting linear regression.

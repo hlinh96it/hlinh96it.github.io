@@ -4,7 +4,7 @@ author: hoanglinh
 categories: [Optimization Algorithms]
 tags: [meta-heuristics algorithm]
 math: true
-img_path: posts_media/2023-01-09-posts/
+img_path: posts_media/2023-01-09-thuat-toan-genetic-algorithm-voi-python/
 image:
   path: ga-cover.jpeg
 ---
