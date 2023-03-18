@@ -34,11 +34,12 @@ LSTMs operate by using a memory cell that can remember or forget information bas
 
 | Term | Definition |
 | --- | --- |
-| Memory Cell | The component of an LSTM network that stores information over time and regulates the flow of information with three gates: the input gate, the forget gate, and the output gate. |
-| Input Gate | stores relevant information in the memory cell. |
-| Forget Gate | removes irrelevant information from the memory cell. |
-| Output Gate | outputs relevant information from the memory cell. |
-| Units | The individual memory cells or neurons that process input data and produce output in an LSTM layer.  |
+| Memory Cell | The component of an LSTM network that stores information over time and regulates <br> the flow of information with three gates: the input gate, the forget gate, and the output gate. |
+| Input Gate | Stores relevant information in the memory cell. |
+| Forget Gate | Removes irrelevant information from the memory cell. |
+| Output Gate | Outputs relevant information from the memory cell. |
+| Units | The individual memory cells or neurons that process input data and produce output in <br> an LSTM layer.  |
+
 
 Moreover, LSTMs can also learn to **regulate the flow of information**, which is particularly useful in cases where the input data is noisy or irrelevant. This is achieved through the use of peephole connections, which allow the gates to take into account the previous state of the memory cell.
 
@@ -75,11 +76,11 @@ The output gate in an LSTM network controls the flow of information from the mem
 
 ![output-gate.png](output-gate.png)
 
-## **What is the number of units in an LSTM cell?**
+## What is the number of units in an LSTM cell?
 
 The number of units in an LSTM cell refers to the number of memory cells or neurons in the LSTM layer. Each unit in the LSTM layer processes input data and produces output, and the overall performance of the LSTM network depends on the number of units and how they are connected.
 
-![lstm-unit.png](lstm-unit.png)_Source: [https://jasdeep06.github.io/posts/Understanding-LSTM-in-Tensorflow-MNIST/](https://jasdeep06.github.io/posts/Understanding-LSTM-in-Tensorflow-MNIST/)_
+![lstm-unit.png](lstm-unit.png){: width="700"}_Source: [https://jasdeep06.github.io/posts/Understanding-LSTM-in-Tensorflow-MNIST/](https://jasdeep06.github.io/posts/Understanding-LSTM-in-Tensorflow-MNIST/)_
 
 
 # Applications of LSTMs
@@ -99,7 +100,7 @@ LSTMs are a powerful type of RNN that can capture long-term dependencies in sequ
 By understanding how LSTMs work and their various applications, you can leverage this powerful tool in your own projects. However, it's important to keep in mind the challenges and limitations of LSTMs and to experiment with different hyperparameters to achieve optimal performance.
 
 > **If you are: “Just keep me the code 😤”, please check it: [Understanding Long Short Term Memory (LSTM) from Theory to Python - Part 2](https://www.notion.so/Understanding-Long-Short-Term-Memory-LSTM-from-Theory-to-Python-Part-2-ec36d1db3ad34ca6a6083df305b6b697).**
-{: .prompt-info}
+{: .prompt-warning}
 
 # References
 
@@ -108,3 +109,5 @@ By understanding how LSTMs work and their various applications, you can leverage
 [2] [https://devopedia.org/long-short-term-memory](https://devopedia.org/long-short-term-memory)
 
 [3] [https://pub.towardsai.net/building-a-lstm-from-scratch-in-python-1dedd89de8fe](https://pub.towardsai.net/building-a-lstm-from-scratch-in-python-1dedd89de8fe)
+
+[4] [https://mmuratarat.github.io/2019-01-19/dimensions-of-lstm](https://mmuratarat.github.io/2019-01-19/dimensions-of-lstm)
