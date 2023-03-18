@@ -9,7 +9,7 @@ img_path: posts_media/2023-03-05-lstm-from-theory-to-python/
 
 In the [previous post](https://www.codewithlinh.com/posts/lstm-from-theory-to-python-part-1/), we introduced the concept of Long Short Term Memory (LSTM) and discussed its theoretical underpinnings. In this post, we will take a more practical approach and implement LSTMs in Python code. To better understand how LSTMs work under the hood, it can be helpful to implement them in Python code from scratch. This will allow you to see the inner workings of the LSTM and gain a deeper understanding of how it processes and stores information. Once you have a solid grasp of the fundamentals, you can then move on to implementing LSTMs in popular deep learning libraries such as TensorFlow and Keras.
 
-> **Give me some ideas**: Understanding Long Short Term Memory (LSTM) from Theory to Python - Part 1 [https://www.codewithlinh.com/posts/lstm-from-theory-to-python-part-1/](https://www.codewithlinh.com/posts/lstm-from-theory-to-python-part-1/)
+> **Give me some ideas**: [Understanding Long Short Term Memory (LSTM) from Theory to Python - Part 1](https://www.codewithlinh.com/posts/lstm-from-theory-to-python-part-1/)
 {: .prompt-info}
 
 # Understand weight matrix in a cell
@@ -346,7 +346,7 @@ Overall, the example demonstrates how to use the `lstm_forward()` and `lstm_back
 
 In conclusion, understanding the theory behind LSTMs is crucial to effectively use them in practice. With an understanding of the LSTM Forward Cell and Backward Propagation, as well as the implementation of LSTMs in Python, you can begin to apply these powerful models to a wide range of time series problems. By fine-tuning the weights and biases of the LSTM, you can achieve accurate predictions and gain valuable insights into complex systems over time.
 
-> **Give me some ideas**: Understanding Long Short Term Memory (LSTM) from Theory to Python - Part 1 [https://www.codewithlinh.com/posts/lstm-from-theory-to-python-part-1/](https://www.codewithlinh.com/posts/lstm-from-theory-to-python-part-1/)
+> **Give me some ideas**: [Understanding Long Short Term Memory (LSTM) from Theory to Python - Part 1](https://www.codewithlinh.com/posts/lstm-from-theory-to-python-part-1/)
 {: .prompt-info}
 
 ## References

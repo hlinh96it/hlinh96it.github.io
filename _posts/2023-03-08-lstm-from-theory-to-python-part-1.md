@@ -11,7 +11,7 @@ img_path: posts_media/2023-03-05-lstm-from-theory-to-python/
 
 In the field of deep learning, recurrent neural networks (RNNs) have been used in sequential data analysis, where the current input **depends** on the previous inputs. However, traditional RNNs have difficulty retaining information from distant time steps, which limits their ability to learn long-term dependencies in the data. Technically, RNN (Recurrent Neural Network) suffers from vanishing gradient or exploding gradient problem, which refers to the difficulty of the network to propagate gradients effectively through time due to the nature of the **chain-like structure** of the network. 
 
-> **If you are: “Just keep me the code 😤”, please check it**: Understanding Long Short Term Memory (LSTM) from Theory to Python - Part 1 [https://www.codewithlinh.com/posts/lstm-from-theory-to-python-part-1/](https://www.codewithlinh.com/posts/lstm-from-theory-to-python-part-1/)
+> **If you are: “Just keep me the code 😤”, please check it**: [Understanding Long Short Term Memory (LSTM) from Theory to Python - Part 1 ](https://www.codewithlinh.com/posts/lstm-from-theory-to-python-part-2/)
 {: .prompt-info}
 
 In Part 2, we'll start by reviewing the theoretical concepts we covered in Part 1, and then delve into the practical applications of LSTMs. We'll explore the basics of coding LSTM from scratch and then move on to using Tensorflow to implement LSTMs in your projects. This post will be a comprehensive guide that covers everything you need to know to get started with LSTMs.
@@ -102,7 +102,7 @@ LSTMs are a powerful type of RNN that can capture long-term dependencies in sequ
 
 By understanding how LSTMs work and their various applications, you can leverage this powerful tool in your own projects. However, it's important to keep in mind the challenges and limitations of LSTMs and to experiment with different hyperparameters to achieve optimal performance.
 
-> **If you are: “Just keep me the code 😤”, please check it**: Understanding Long Short Term Memory (LSTM) from Theory to Python - Part 1 [https://www.codewithlinh.com/posts/lstm-from-theory-to-python-part-1/](https://www.codewithlinh.com/posts/lstm-from-theory-to-python-part-1/)
+> **If you are: “Just keep me the code 😤”, please check it**: [Understanding Long Short Term Memory (LSTM) from Theory to Python - Part 1 ](https://www.codewithlinh.com/posts/lstm-from-theory-to-python-part-2/)
 {: .prompt-warning}
 
 # References
