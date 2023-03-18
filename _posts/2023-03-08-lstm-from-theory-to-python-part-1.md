@@ -11,7 +11,10 @@ img_path: posts_media/2023-03-05-lstm-from-theory-to-python/
 
 In the field of deep learning, recurrent neural networks (RNNs) have been used in sequential data analysis, where the current input **depends** on the previous inputs. However, traditional RNNs have difficulty retaining information from distant time steps, which limits their ability to learn long-term dependencies in the data. Technically, RNN (Recurrent Neural Network) suffers from vanishing gradient or exploding gradient problem, which refers to the difficulty of the network to propagate gradients effectively through time due to the nature of the **chain-like structure** of the network. 
 
-**If you are: “Just keep me the code 😤”, please check it: [Understanding Long Short Term Memory (LSTM) from Theory to Python - Part 2](https://www.notion.so/Understanding-Long-Short-Term-Memory-LSTM-from-Theory-to-Python-Part-2-ec36d1db3ad34ca6a6083df305b6b697).** In Part 2, we'll start by reviewing the theoretical concepts we covered in Part 1, and then delve into the practical applications of LSTMs. We'll explore the basics of coding LSTM from scratch and then move on to using Tensorflow to implement LSTMs in your projects. This post will be a comprehensive guide that covers everything you need to know to get started with LSTMs.
+> **If you are: “Just keep me the code 😤”, please check it**: Understanding Long Short Term Memory (LSTM) from Theory to Python - Part 1 [https://www.codewithlinh.com/posts/lstm-from-theory-to-python-part-1/](https://www.codewithlinh.com/posts/lstm-from-theory-to-python-part-1/)
+{: .prompt-info}
+
+In Part 2, we'll start by reviewing the theoretical concepts we covered in Part 1, and then delve into the practical applications of LSTMs. We'll explore the basics of coding LSTM from scratch and then move on to using Tensorflow to implement LSTMs in your projects. This post will be a comprehensive guide that covers everything you need to know to get started with LSTMs.
 
 You'll learn how to build and train your own LSTM network, and we'll cover a range of topics, including data preprocessing, model selection, and hyperparameter tuning. We'll also explore how to use LSTM networks for a variety of practical applications, such as time series prediction, text classification, and image recognition.
 
