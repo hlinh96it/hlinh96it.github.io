@@ -102,7 +102,7 @@ LSTMs are a powerful type of RNN that can capture long-term dependencies in sequ
 
 By understanding how LSTMs work and their various applications, you can leverage this powerful tool in your own projects. However, it's important to keep in mind the challenges and limitations of LSTMs and to experiment with different hyperparameters to achieve optimal performance.
 
-> **If you are: “Just keep me the code 😤”, please check it: [Understanding Long Short Term Memory (LSTM) from Theory to Python - Part 2](https://www.notion.so/Understanding-Long-Short-Term-Memory-LSTM-from-Theory-to-Python-Part-2-ec36d1db3ad34ca6a6083df305b6b697).**
+> **If you are: “Just keep me the code 😤”, please check it**: Understanding Long Short Term Memory (LSTM) from Theory to Python - Part 1 [https://www.codewithlinh.com/posts/lstm-from-theory-to-python-part-1/](https://www.codewithlinh.com/posts/lstm-from-theory-to-python-part-1/)
 {: .prompt-warning}
 
 # References
