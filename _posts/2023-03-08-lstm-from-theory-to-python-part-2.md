@@ -342,6 +342,19 @@ plt.show()
 
 Overall, the example demonstrates how to use the `lstm_forward()` and `lstm_backward()` functions to train an LSTM network and make predictions on time series data. By understanding the underlying theory of LSTMs and their implementation in Python, you can more effectively apply these powerful models to a wide range of time series problems.
 
+## Recommended resources for further learning
+
+Here are some recommended resources for further learning about Long Short Term Memory (LSTM):
+
+- [Understanding LSTM Networks](https://colah.github.io/posts/2015-08-Understanding-LSTMs/) by Christopher Olah
+- [Long Short-Term Memory Networks (LSTM)](https://www.tensorflow.org/guide/keras/rnn#lstm) in TensorFlow's Keras documentation
+- [Recurrent Neural Networks Tutorial, Part 4 – Implementing a GRU/LSTM RNN with Python and Theano](https://machinelearningmastery.com/develop-gated-recurrent-neural-networks-gru-and-lstm-in-python/) by Jason Brownlee
+
+Here are some recommended books for delving into deep learning from scratch:
+- [Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow](https://amzn.to/3YZeOAk) by Aurélien Géron
+- [Deep Learning from Scratch: Building with Python from First Principles](https://amzn.to/40gyjFQ) by Seth Weidman
+- [Data Science from Scratch: First Principles with Python](https://amzn.to/40ep3T7) by Joel Grus, a research engineer at the Allen Institute for Artificial Intelligence
+
 ## Conclusion
 
 In conclusion, understanding the theory behind LSTMs is crucial to effectively use them in practice. With an understanding of the LSTM Forward Cell and Backward Propagation, as well as the implementation of LSTMs in Python, you can begin to apply these powerful models to a wide range of time series problems. By fine-tuning the weights and biases of the LSTM, you can achieve accurate predictions and gain valuable insights into complex systems over time.

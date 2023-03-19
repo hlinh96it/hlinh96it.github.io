@@ -5,6 +5,8 @@ categories: [Deep Learning]
 tags: [time series forecasting, natural language processing]
 math: true
 img_path: posts_media/2023-03-05-lstm-from-theory-to-python/
+markdown:
+    escape_markup: true
 ---
 
 # Introduction
@@ -96,6 +98,19 @@ For instance, LSTMs can be trained on a dataset of Shakespearean sonnets, which 
 
 However, while LSTMs have proven to be effective in various applications, they are not without limitations. One of the primary challenges associated with LSTMs is selecting the optimal hyperparameters. This requires thorough experimentation and testing, as the number of LSTM units, learning rate, and number of epochs can all have a significant impact on the model's performance. Additionally, vanishing gradients can be a major obstacle when training an LSTM. This can occur when the gradients become too small during backpropagation, resulting in slow convergence or even a complete halt in learning. To address this issue, researchers have developed a number of techniques, such as gradient clipping and layer normalization, to ensure that the gradients remain within a reasonable range. Despite these challenges, LSTMs remain one of the most widely used and effective types of recurrent neural networks for sequential data processing tasks.
 
+## Recommended resources for further learning
+
+Here are some recommended resources for further learning about Long Short Term Memory (LSTM):
+
+- [Understanding LSTM Networks](https://colah.github.io/posts/2015-08-Understanding-LSTMs/) by Christopher Olah
+- [Long Short-Term Memory Networks (LSTM)](https://www.tensorflow.org/guide/keras/rnn#lstm) in TensorFlow's Keras documentation
+- [Recurrent Neural Networks Tutorial, Part 4 – Implementing a GRU/LSTM RNN with Python and Theano](https://machinelearningmastery.com/develop-gated-recurrent-neural-networks-gru-and-lstm-in-python/) by Jason Brownlee
+
+Here are some recommended books for delving into deep learning from scratch:
+- [Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow](https://amzn.to/3YZeOAk) by Aurélien Géron
+- [Deep Learning from Scratch: Building with Python from First Principles](https://amzn.to/40gyjFQ) by Seth Weidman
+- [Data Science from Scratch: First Principles with Python](https://amzn.to/40ep3T7) by Joel Grus, a research engineer at the Allen Institute for Artificial Intelligence
+
 # Conclusion
 
 LSTMs are a powerful type of RNN that can capture long-term dependencies in sequential data. Understanding the theory and math behind LSTMs is crucial to implementing them effectively in code. With the help of deep learning libraries such as Keras and TensorFlow, implementing LSTMs has become more accessible than ever before.
@@ -104,6 +119,8 @@ By understanding how LSTMs work and their various applications, you can leverage
 
 > **If you are: “Just keep me the code 😤”, please check it**: [Understanding Long Short Term Memory (LSTM) from Theory to Python - Part 1 ](https://www.codewithlinh.com/posts/lstm-from-theory-to-python-part-2/)
 {: .prompt-warning}
+
+
 
 # References
 
