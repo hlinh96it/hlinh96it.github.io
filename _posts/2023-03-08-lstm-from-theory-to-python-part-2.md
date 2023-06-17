@@ -29,24 +29,25 @@ Each of the $W_{xi}, W_{xf}, W_{xc}$ and $W_{xo}$, is an array with the shape of
 
 Here's an example of how to create the weight matrix for a LSTM cell in Python:
 
+```
+hidden_units -- number of hidden units
+input_units -- number of input units
+    
+parameters['forget_gate_weights'] -- Weight matrix of the forget gate, shape (hidden_units, hidden_units + input_units)
+parameters['forget_gate_bias']  -- Bias of the forget gate, shape (hidden_units, 1)
+parameters['input_gate_weights'] -- Weight matrix of the update gate, shape (hidden_units, hidden_units + input_units)
+parameters['input_gate_bias'] -- Bias of the update gate, shape (hidden_units, 1)
+parameters['gate_weights'] -- Weight matrix of the first "tanh", shape (hidden_units, hidden_units + input_units)
+parameters['gate_bias'] --  Bias of the first "tanh", shape (hidden_units, 1)
+parameters['output_gate_weights'] -- Weight matrix of the output gate, shape (hidden_units, hidden_units + input_units)
+parameters['output_gate_bias'] --  Bias of the output gate, shape (hidden_units, 1)
+parameters['hidden_output_weights'] -- Weight matrix relating the hidden-state to the output, (n_y, hidden_units)
+parameters['hidden_output_bias'] -- Bias relating the hidden-state to the output (n_y, 1)
+
+```
+
 ```python
 def create_weight_matrix(input_units, hidden_units):
-    """
-    hidden_units -- number of hidden units
-    input_units -- number of input units
-    
-    parameters['forget_gate_weights'] -- Weight matrix of the forget gate, shape (hidden_units, hidden_units + input_units)
-    parameters['forget_gate_bias']  -- Bias of the forget gate, shape (hidden_units, 1)
-    parameters['input_gate_weights'] -- Weight matrix of the update gate, shape (hidden_units, hidden_units + input_units)
-    parameters['input_gate_bias'] -- Bias of the update gate, shape (hidden_units, 1)
-    parameters['gate_weights'] -- Weight matrix of the first "tanh", shape (hidden_units, hidden_units + input_units)
-    parameters['gate_bias'] --  Bias of the first "tanh", shape (hidden_units, 1)
-    parameters['output_gate_weights'] -- Weight matrix of the output gate, shape (hidden_units, hidden_units + input_units)
-    parameters['output_gate_bias'] --  Bias of the output gate, shape (hidden_units, 1)
-    parameters['hidden_output_weights'] -- Weight matrix relating the hidden-state to the output, (n_y, hidden_units)
-    parameters['hidden_output_bias'] -- Bias relating the hidden-state to the output (n_y, 1)
-    """
-    
     mean, std = 0, 0.01
     parameters = {}
     
