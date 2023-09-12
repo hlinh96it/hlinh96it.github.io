@@ -1,5 +1,5 @@
 ---
-title: Batch Normalization trong Convolutional Neural Networks - Tối ưu hiệu suất và ổn định trong việc phân loại chó mèo
+title: Batch Normalization trong Convolutional Neural Networks - Tối ưu hiệu suất và ổn định
 author: hoanglinh
 categories: [Deep Learning]
 tags: [classification, convolution neural networks]
