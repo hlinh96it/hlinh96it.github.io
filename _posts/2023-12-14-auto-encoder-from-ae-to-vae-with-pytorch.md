@@ -1,0 +1,311 @@
+---
+title: Auto-encoder - From AE to VAE with Pytorch
+author: hoanglinh
+categories: [Deep Learning]
+tags: [auto-encoder]
+math: true
+img_path: posts_media/2023-12-14-auto-encoder-from-ae-to-vae-with-pytorch/
+---
+
+**Auto-encoders** serve as versatile tools in **deep learning** due to their ability to learn efficient representations of data. Their primary motivation lies in **dimensionality reduction** and **feature learning**, allowing for the extraction of meaningful features from raw data. By encoding input data into a compressed representation and subsequently reconstructing it, auto-encoders aid in tasks like **denoising**, **anomaly detection**, and **generative modeling**. Their self-supervised nature, where they learn from unlabeled data, makes them valuable in scenarios where labeled data is scarce or costly. Moreover, their adaptability across various domains, from image and text data to more complex sequential data, underscores their significance in modern deep learning architectures.
+
+## Auto-Encoder Fundamentals
+---
+An auto-encoder comprises two primary components: the encoder, represented as  $f(\phi)$ , and the decoder, denoted as $g(\theta)$ . The encoder function  $f(\phi)$  compresses the input data  $x$  into a lower-dimensional latent space representation called the bottleneck, denoted as  $z$ . This encoding process aims to capture the most essential features of the input. Subsequently, the decoder function  $g(\theta)$  reconstructs the original input from this bottleneck representation. The auto-encoder's training involves minimizing a loss function that measures the discrepancy between the input and the reconstructed output.
+
+The **reconstruction loss** can be computed using various metrics, commonly employing the **mean squared error (MSE)** for continuous data or **binary cross-entropy** for binary data. For instance, the MSE loss function for a set of $N$ training samples can be expressed as:
+
+$$
+L(\phi, \theta) = \frac{1}{N} \sum_{i=1}^{N} || x^{(i)} - g(\theta)(f(\phi)(x^{(i)})) ||^2
+$$
+
+Here,  $x^{(i)}$  represents the  $i$ th input sample,  $f(\phi)(x^{(i)})$  is the encoding of  $x^{(i)}$  to the bottleneck  $z^{(i)}$ , and  $g(\theta)(z^{(i)})$  is the reconstruction of  $x^{(i)}$  from the bottleneck representation. The goal during training is to adjust the encoder and decoder parameters  $\phi$  and  $\theta$  to minimize this loss, thereby improving the accuracy of the reconstructed output compared to the original input.
+
+![Illustration of autoencoder model architecture. Source: [https://lilianweng.github.io/posts/2018-08-12-vae/](https://lilianweng.github.io/posts/2018-08-12-vae/)](Untitled.png)_Illustration of autoencoder model architecture. Source: [https://lilianweng.github.io/posts/2018-08-12-vae/](https://lilianweng.github.io/posts/2018-08-12-vae/)_
+
+The **encoder network** serves a purpose akin to dimensionality reduction methods like Principal Component Analysis (PCA) or Matrix Factorization (MF). It condenses the input data into a compressed or encoded representation, reducing its dimensionality. This reduction helps in capturing the most relevant and **essential features of the data while discarding less critical information**. This process is crucial as it simplifies the data representation, making it more manageable and efficient for subsequent analysis or processing.
+
+## Denoising Autoencoder
+---
+
+In a **denoising autoencoder**, the primary objective is to reconstruct clean data from corrupted or noisy input. This approach aids in learning robust and meaningful representations by forcing the model to capture essential features while filtering out noise.
+
+The **need for denoising** arises from the desire to make the learned representation more robust against noise present in real-world data. By training on corrupted input and expecting the model to recover the original, clean data, the denoising autoencoder becomes adept at extracting salient features while filtering out irrelevant or noisy information.
+
+![Illustration of denoising autoencoder model architecture. Source: [https://lilianweng.github.io/posts/2018-08-12-vae/](https://lilianweng.github.io/posts/2018-08-12-vae/)](Untitled 2.png)_Illustration of denoising autoencoder model architecture. Source: [https://lilianweng.github.io/posts/2018-08-12-vae/](https://lilianweng.github.io/posts/2018-08-12-vae/)_
+
+The modification in the loss function involves comparing the reconstructed output to the original, uncorrupted input. Assuming an additive random noise  $\epsilon$  is applied to the input  $x$  to generate the corrupted input  $x_{\text{corrupted}}$ , the denoising autoencoder aims to minimize the reconstruction error between the reconstructed output and the original, uncorrupted input.
+
+The adjusted loss function using mean squared error (MSE) for a set of $N$ training samples can be expressed as:
+
+$$
+\begin{equation}
+L(\phi, \theta) = \frac{1}{N} \sum_{i=1}^{N} || x^{(i)} - g(\theta)(f(\phi)(x_{\text{corrupted}}^{(i)})) ||^2
+\end{equation}
+$$
+
+To illustrate how noise is added to the input, assuming Gaussian noise with mean  $\mu$  and standard deviation  $\sigma$  is added to each element of the input  $x$  to generate the corrupted input  $x_{\text{corrupted}}$ , it can be represented as:
+
+$$
+\begin{equation}
+x_{\text{corrupted}} = x + \epsilon, \quad \text{where} \quad \epsilon \sim \mathcal{N}(\mu, \sigma^2)
+\end{equation}
+$$
+
+Here,  $x^{(i)}$  denotes the  $i$ th input sample,  $f(\phi)(x_{\text{corrupted}}^{(i)})$  represents the encoding of the corrupted input to the bottleneck  $z^{(i)}$ , and  $g(\theta)(z^{(i)})$  signifies the reconstruction of  $x^{(i)}$  from the bottleneck representation. The denoising autoencoder, by learning to reconstruct clean data from noisy inputs, encourages the model to capture robust and meaningful features while enhancing its ability to filter out unwanted noise in the data.
+
+## Sparse Auto-Encoder
+---
+
+Sparse auto-encoders aim to introduce **sparsity in the learned representations**, meaning that only a **few units in the network are activated at a time**. This sparsity constraint forces the model to learn more efficient and selective representations, focusing on the most important features in the data. The sparsity constraint encourages the autoencoder to use only a limited number of neurons in the encoding process, which can lead to better generalization, reduced overfitting, and improved interpretability of the learned features.
+
+In a sparse autoencoder, the loss function is modified to include a **sparsity term**. The overall loss function now comprises two components: the reconstruction loss and the sparsity regularization term. The sparsity term encourages the activation of only a small fraction $\rho$ of units in the hidden layer.
+
+The loss function for a sparse autoencoder with $N$ training samples can be expressed as follows:
+
+$$
+\begin{equation}
+L(\phi, \theta) = \frac{1}{N} \sum_{i=1}^{N} || x^{(i)} - g(\theta)(f(\phi)(x^{(i)})) ||^2 + \lambda \sum_{j=1}^{K} \text{KL}(\rho || \hat{\rho}_j)
+\end{equation}
+$$
+
+Where:
+
+- $x^{(i)}$  represents the  $i$ th input sample.
+- $f(\phi)(x^{(i)})$  denotes the encoding of  $x^{(i)}$  to the bottleneck.
+- $g(\theta)(z^{(i)})$  represents the reconstruction of  $x^{(i)}$  from the bottleneck representation.
+- $K$  is the number of units in the hidden layer.
+- $\lambda$  is the regularization parameter controlling the impact of the sparsity term.
+- $\text{KL}$  denotes the Kullback-Leibler divergence, measuring the difference between the desired sparsity  $\rho$  and the actual average activation  $\hat{\rho}_j$  of each neuron in the hidden layer.
+
+The sparsity term  $\text{KL}$ can be defined as:
+
+$$
+\begin{equation}
+\text{KL}(\rho || \hat{\rho}_j) = \rho \log \left( \frac{\rho}{\hat{\rho}_j} \right) + (1 - \rho) \log \left( \frac{1 - \rho}{1 - \hat{\rho}_j} \right)
+\end{equation}
+$$
+
+Here,  $\rho$  represents the desired sparsity level, and  $\hat{\rho}_j$  is the average activation of neuron  $j$  in the hidden layer over the training set. Let say, there are $s_l$ neurons in the $l$-th layer and the activation function of $j$-th neuron in this layer is $a_j^{(l)}(.)$ where $j=1,..s_l$, $\hat{\rho}_j^{(l)}$ can be calculated as:
+
+$$
+\begin{equation}\hat{\rho}_j^{(l)} = \frac{1}{n} \sum_{i=1}^n [a_j^{(l)}(\mathbf{x}^{(i)})] \approx \rho \end{equation}
+$$
+
+By incorporating the sparsity term in the loss function, the sparse autoencoder encourages the network to learn sparse and informative representations, promoting more efficient and selective encoding of input data.
+
+## VAE: Variational Autoencoder
+---
+
+Variational Autoencoders (VAEs) address the limitations of traditional autoencoders by enabling the generation of new data samples. They aim to learn a latent space representation that not only captures meaningful features but also allows for the generation of new, realistic data points by sampling from the learned distribution. VAEs achieve this by imposing a specific structure on the latent space, making it follow a probabilistic distribution.
+
+In a VAE, the goal is to **learn a probability distribution** over the latent space, which is typically assumed to follow a Gaussian distribution. The model learns to **encode input data into a probability distribution**, and during the decoding process, it generates new samples by sampling from this distribution.
+
+![Variational Autoencoder. Source: [https://lilianweng.github.io/posts/2018-08-12-vae/](https://lilianweng.github.io/posts/2018-08-12-vae/)](Untitled 2.png)_Variational Autoencoder. Source: [https://lilianweng.github.io/posts/2018-08-12-vae/](https://lilianweng.github.io/posts/2018-08-12-vae/)_
+
+The VAE's loss function comprises two components: a reconstruction loss similar to traditional autoencoders and a regularization term that enforces the latent space to follow a specific distribution (usually a standard Gaussian distribution).
+
+The loss function for a VAE with $N$ training samples can be expressed as follows:
+
+$$
+\begin{equation}
+L(\phi, \theta) = -\frac{1}{N} \sum_{i=1}^{N} \mathbb{E}{z \sim q\phi(z|x^{(i)})} \left[ \log p_\theta(x^{(i)}|z) \right] + \text{KL}(q_\phi(z|x^{(i)}) || p(z))
+\end{equation}
+$$
+
+Where
+
+- $x^{(i)}$  represents the  $i$ th input sample.
+- $q_\phi(z\|x^{(i)})$  denotes the approximate posterior distribution (encoder) that maps input  $x^{(i)}$  to a distribution over the latent space  $z$ .
+- $p_\theta(x^{(i)}\|z)$  represents the likelihood of generating  $x^{(i)}$  from the latent variable  $z$  (decoder).
+- $p(z)$  is the prior distribution assumed over the latent space, often chosen as a standard Gaussian distribution.
+- $\text{KL}$  denotes the Kullback-Leibler divergence, measuring the difference between the approximate posterior  $q_\phi(z\|x^{(i)})$  and the prior  $p(z)$ .
+
+The first term in the loss function is the reconstruction loss, ensuring the fidelity of the generated output to the original input. The second term is the KL divergence, encouraging the distribution of latent variables to approximate the chosen prior distribution. This regularization term helps in shaping the latent space to be continuous and smooth, facilitating the generation of new data samples by sampling from this learned distribution.
+
+> VAEs enable both effective representation learning and generative capabilities, allowing for the creation of novel data points from the learned latent space distribution.
+{: .prompt-info}
+
+### Reparameterization Trick
+
+In a VAE, the goal is to learn a latent space representation for input data that can generate similar data points. This involves sampling from a probability distribution (typically Gaussian) in the latent space. The challenge is that directly sampling from this distribution introduces randomness, making it challenging to compute gradients and perform backpropagation during training.
+
+Reparameterization is a technique used in variational autoencoders (VAEs) to enable the training of the model through backpropagation while dealing with stochasticity in the latent space sampling process. Reparameterization addresses this issue by **separating the stochasticity** of the sampling process from the parameters that are being learned. Instead of directly sampling from the distribution, the technique reparameterizes the random variable using a deterministic transformation based on the distribution's parameters (mean and standard deviation).
+
+For instance, in a VAE with a Gaussian latent space, rather than directly sampling from a Gaussian distribution with mean $\mu$ and standard deviation $\sigma$, we sample from a standard normal distribution $\boldsymbol{\epsilon} \sim \mathcal{N}(0, \boldsymbol{I})$ and then transform the sampled value using the mean and standard deviation obtained from the encoder.
+
+![Illustration of how the reparameterization trick makes the $z$ sampling process trainable.(Image source: Slide 12 in Kingma’s NIPS 2015 workshop [talk](http://dpkingma.com/wordpress/wp-content/uploads/2015/12/talk_nips_workshop_2015.pdf))](Untitled 3.png)_Illustration of how the reparameterization trick makes the $z$ sampling process trainable.(Image source: Slide 12 in Kingma’s NIPS 2015 workshop [talk](http://dpkingma.com/wordpress/wp-content/uploads/2015/12/talk_nips_workshop_2015.pdf))_
+
+
+
+## Implement VAE with Pytorch
+---
+Full implement here: <https://github.com/hlinh96it/variational-auto-encoder-basics>
+
+```python
+import torch
+import numpy as np
+import torch.nn as nn
+import matplotlib.pyplot as plt
+from torchvision.datasets import MNIST
+from torch.utils.data import DataLoader
+import torchvision.transforms as transforms
+from mpl_toolkits.axes_grid1 import ImageGrid
+from torchvision.utils import save_image, make_grid
+```
+
+**Class** `VariationalAE` **which inherits from** `nn.Module`**, making it a PyTorch neural network module.**
+
+- `input_dim`: Dimensionality of the input data (default is set to the MNIST image size: 28x28 = 784).
+- `hidden_dim`: Number of neurons in the hidden layer (default is 400).
+- `latent_dim`: Dimensionality of the latent space (default is 200).
+- `device`: Device to be used (default is `'mps'`) since I used M1 Pro Chip, otherwise please use `'cuda'`
+
+```python
+class VariationalAE(nn.Module):
+    def __init__(self, input_dim: int=28*28, hidden_dim: int=400, latent_dim: int=200, device=torch.device('mps')):
+        super(VariationalAE, self).__init__()
+        
+        self.encoder = nn.Sequential(
+            nn.Linear(input_dim, hidden_dim), nn.LeakyReLU(0.2), nn.Linear(hidden_dim, latent_dim), nn.LeakyReLU(0.2)
+        )
+        self.mean_layer = nn.Linear(latent_dim, 2)
+        self.logvar_layer = nn.Linear(latent_dim, 2)
+        
+        self.decoder = nn.Sequential(
+            nn.Linear(2, latent_dim), nn.LeakyReLU(0.2), nn.Linear(latent_dim, hidden_dim), nn.LeakyReLU(0.2),
+            nn.Linear(hidden_dim, input_dim), nn.Sigmoid()
+        )
+```
+
+`self.encoder`: Sequential neural network consisting of linear layers followed by LeakyReLU activations: Takes the input and maps it through hidden layers to obtain a latent representation and output of this encoder is the latent space representation.
+
+`self.mean_layer` and `self.logvar_layer`: These layers take the latent representation and output the mean and log variance of the Gaussian distribution representing the latent space. In VAEs, the mean and log variance are used to sample latent space points during the encoding process.
+
+`self.decoder`: Sequential neural network responsible for decoding the sampled latent space points back to the original data space. 
+
+- Takes the sampled latent space representation and decodes it back to the original input space.
+- Comprises linear layers with `LeakyReLU` activations and a final sigmoid activation (assuming the input data is pixel values in the range `[0,1]`).
+
+Regarding `self.mean_layer = nn.Linear(latent_dim, 2)`: In a VAE, the mean and log variance layers define the parameters of the approximate posterior distribution over the latent space variables. In this case, the output dimensions are set to 2 to assume a 2-dimensional latent space. The choice of a 2-dimensional latent space is common in VAEs for visualization purposes and to capture essential features of the data distribution in a compressed space.
+
+![Source: [https://www.jeremyjordan.me/variational-autoencoders/](https://www.jeremyjordan.me/variational-autoencoders/)](Untitled 4.png)_Source: [https://www.jeremyjordan.me/variational-autoencoders/](https://www.jeremyjordan.me/variational-autoencoders/)_
+
+> This 2-dimensional latent space enables **easy visualization** and can capture the essential features of the data while allowing easy generation of new samples by sampling from a simple distribution, such as a standard Gaussian.
+{: .prompt-info}
+
+### Forward Method
+```python
+def forward(self, x):
+    mean, logvar = self.encode(x)
+    z = self.reparameterization(mean, logvar)
+    x_hat = self.decoder(z)
+    return x_hat, mean, logvar
+
+def encode(self, x):
+    x = self.encoder(x)
+    mean, logvar = self.mean_layer(x), self.logvar_layer(x)
+    return mean, logvar
+```
+
+This code defines the forward pass and encoding process for the variational autoencoder (VAE) previously described. Let's break it down:
+
+- Takes an input `x` and passes it through the encoder to obtain the mean and log variance of the latent space (`mean`, `logvar`).
+- Utilizes the reparameterization trick to sample from the learned distribution and obtain a latent representation `z`.
+- Decodes this latent representation `z` to reconstruct the input `x` and returns the reconstructed input (`x_hat`), along with `mean` and `logvar`.
+
+```python
+def reparameterization(self, mean, logvar):
+    epsilon = torch.randn_like(logvar).to(device)
+    return mean + logvar * epsilon
+```
+
+### Training loop for a variational autoencoder (VAE)
+
+```python
+def train(model: nn.Module, optimizer: torch.optim.Optimizer, epochs: int, device: torch.device, train_loader: DataLoader):
+    model.train()
+    for epoch in range(epochs):
+        overall_loss = 0
+        for batch_idx, (x, _) in enumerate(train_loader):
+
+						# used to reshape the input x to match the input size expected by the model.
+            x = x.view(x.shape[0], x.shape[1]*x.shape[2]*x.shape[3]).to(device)
+
+            optimizer.zero_grad()
+            x_hat, mean, logvar = model(x)
+            loss = loss_function(x, x_hat, mean, logvar)
+
+            overall_loss += loss
+            loss.backward()
+            optimizer.step()
+        print(f'At epoch {epoch+1}, loss = {overall_loss}')
+```
+
+Trains the VAE model for a specified number of epochs:
+
+- Reshapes the input `x` to match the model's input dimensions and moves it to the specified device.
+- Performs the forward pass through the model to obtain reconstructed output (`x_hat`), mean, and logvar.
+- Calculates the loss using the defined `loss_function`.
+- Computes gradients, performs backpropagation, and updates the model's weights using the optimizer.
+- Accumulates the loss for the entire epoch (`overall_loss`).
+
+### For calcuating loss function, we use Kullback-Leibler Divergence (KLD)
+
+```python
+def loss_function(x, x_hat, mean, logvar):
+    reproduction_loss = nn.functional.binary_cross_entropy(x_hat, x, reduction='sum')
+    kld = -0.5 * torch.sum(1 + logvar - mean.pow(2) - logvar.exp())
+    return reproduction_loss + kld
+```
+
+The `kld` term computes the Kullback-Leibler divergence between the learned latent space distribution and a standard normal distribution. It quantifies how much the learned distribution differs from the standard normal distribution.
+
+- The formula used here is based on the formula for KLD between two Gaussian distributions in the context of VAEs.
+- The `0.5 * torch.sum(1 + logvar - mean.pow(2) - logvar.exp())` represents the KLD between the approximate posterior (encoded distribution) and the prior distribution (standard normal distribution) in the latent space.
+
+![KL divergence have different demands on how to match two distributions. Source: [blog.evjang.com/2016/08/variational-bayes.html](https://blog.evjang.com/2016/08/variational-bayes.html))](Untitled 5.png)_KL divergence have different demands on how to match two distributions. Source: [blog.evjang.com/2016/08/variational-bayes.html](https://blog.evjang.com/2016/08/variational-bayes.html))_
+
+### Overall training process: loading MNIST dataset
+
+Assuming you have a CUDA-enabled GPU, replace to `'cuda'`. If you're running on a CPU, use **`'cpu**'` instead:
+
+```python
+transform = transforms.Compose([transforms.ToTensor()])
+
+path = 'mnist-dataset/'
+train_dataset = MNIST(path, transform=transform, download=True, train=True)
+test_dataset = MNIST(path, transform=transform, download=True, train=False)
+
+batch_size = 128
+train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
+device = torch.device('mps:0')
+
+vae_model = VariationalAE(input_dim=28*28, hidden_dim=400, latent_dim=200).to(device)
+optimizer = torch.optim.Adam(params=vae_model.parameters(), lr=1e-3)
+train(model=vae_model, optimizer=optimizer, epochs=10, device=device, train_loader=train_loader)
+```
+
+We now know that all we need to generate an image from the latent space is two float values (mean and variance). Let’s generate some images from the latent space. This is what the latent space looks like for mean and variance values between -1.0 and 1.0:
+
+![Untitled](Untitled 6.png)
+
+## VAE vs Generative Arversarial Networks (GAN)?
+---
+
+Imagine you are an artist who wants to draw a picture of a cat. The VAE (Variational Autoencoder) would help you draw a cat by giving you a set of rules to follow. It tells you what a cat looks like in general, and you try to draw a cat based on those rules. Sometimes, the cat you draw may not look exactly like a real cat, but it's close.
+
+On the other hand, the GAN (Generative Adversarial Network) works differently. It's like having two artists competing against each other. One artist, called the generator, tries to draw a cat, and the other artist, called the discriminator, looks at the drawing and tries to tell if it's a real cat or not. The generator keeps improving its drawings to fool the discriminator, and the discriminator keeps getting better at spotting fake cats. This competition makes the generator really good at drawing cats that look very realistic.
+
+![Simple Architecture of a GAN. Source: [https://www.clickworker.com/ai-glossary/generative-adversarial-networks/](https://www.clickworker.com/ai-glossary/generative-adversarial-networks/)](Untitled 7.png)_Simple Architecture of a GAN. Source: [https://www.clickworker.com/ai-glossary/generative-adversarial-networks/](https://www.clickworker.com/ai-glossary/generative-adversarial-networks/)_
+
+So, the main difference is that the VAE gives you rules to follow to draw something, while the GAN learns by competition to create things that look very real. Both methods are used for creating new, realistic-looking images, but they work in different ways.
+
+## Recommended resources for further learning
+---
+Here are some recommended books for delving into deep learning from scratch:
+- [Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow](https://amzn.to/3YZeOAk) by Aurélien Géron
+- [Deep Learning from Scratch: Building with Python from First Principles](https://amzn.to/40gyjFQ) by Seth Weidman
+- [Data Science from Scratch: First Principles with Python](https://amzn.to/40ep3T7) by Joel Grus, a research engineer at the Allen Institute for Artificial Intelligence
+
